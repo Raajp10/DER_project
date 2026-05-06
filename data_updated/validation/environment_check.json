@@ -1,0 +1,54 @@
+{
+  "python_version": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+  "packages": [
+    {
+      "package": "pandas",
+      "available": true,
+      "version": "3.0.2"
+    },
+    {
+      "package": "numpy",
+      "available": true,
+      "version": "2.4.4"
+    },
+    {
+      "package": "matplotlib",
+      "available": true,
+      "version": "3.10.8"
+    },
+    {
+      "package": "pyarrow",
+      "available": true,
+      "version": "23.0.1"
+    },
+    {
+      "package": "fastparquet",
+      "available": false,
+      "error": "No module named 'fastparquet'"
+    },
+    {
+      "package": "yaml",
+      "available": true,
+      "version": "6.0.3"
+    },
+    {
+      "package": "scipy",
+      "available": true,
+      "version": "1.17.1"
+    }
+  ],
+  "opendss": {
+    "engine": "opendssdirect",
+    "available": true,
+    "compile_test": {
+      "status": "SUCCESS",
+      "master_dss": "D:\\updated_dataset\\ieee123_base\\DER_QSTS_7day.dss",
+      "num_buses": 132
+    },
+    "error": null,
+    "version": "0.9.4"
+  },
+  "opendss_available": true,
+  "physical_generation_mode": "opendss_clean_baseline",
+  "surrogate_fallback": false
+}

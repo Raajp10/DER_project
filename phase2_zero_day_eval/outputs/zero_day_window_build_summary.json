@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-05-05 18:58:56",
+  "total_windows": 60475,
+  "window_s": 60,
+  "stride_s": 10,
+  "n_raw_features": 22,
+  "n_flat_features": 220,
+  "n_active_zd_windows": 3128,
+  "n_anomaly_windows": 2721,
+  "flat_shape": [
+    60475,
+    220
+  ],
+  "seq_shape": [
+    60475,
+    60,
+    22
+  ],
+  "outputs": {
+    "parquet": "D:\\updated_dataset\\phase2_zero_day_eval\\outputs\\zero_day_windows.parquet",
+    "npz": "D:\\updated_dataset\\phase2_zero_day_eval\\outputs\\zero_day_windows.npz"
+  },
+  "phase1_feature_manifest": "D:\\updated_dataset\\models\\windows\\feature_manifest.json",
+  "feature_order_matches_phase1": true
+}

@@ -1,0 +1,32 @@
+{
+  "pv_p_rated_kw": 100.0,
+  "pv_s_rated_kva": 111.11,
+  "bess_p_rated_kw": 50.0,
+  "bess_s_rated_kva": 55.55,
+  "bess_capacity_kwh": 200.0,
+  "bess_soc_min_percent": 10.0,
+  "bess_soc_max_percent": 90.0,
+  "bess_initial_soc_percent": 50.0,
+  "bess_eff_charge_percent": 95.0,
+  "bess_eff_discharge_percent": 95.0,
+  "pv_p_rated_kw_source": "dss_file_parsed",
+  "pv_s_rated_kva_source": "dss_file_parsed",
+  "bess_p_rated_kw_source": "dss_file_parsed",
+  "bess_s_rated_kva_source": "derived_from_bess_p_rated",
+  "rating_source_file": "D:\\updated_dataset\\ieee123_base\\DER_site_001.dss",
+  "rating_source_line_or_object": "PVSystem.pv_001 / Storage.bess_001",
+  "rating_fallback_used": false,
+  "warnings": [],
+  "all_sources": {
+    "pv_p_rated_kw": "dss_file_parsed",
+    "pv_s_rated_kva": "dss_file_parsed",
+    "bess_p_rated_kw": "dss_file_parsed",
+    "bess_s_rated_kva": "derived_from_bess_p_rated",
+    "bess_capacity_kwh": "dss_file_parsed",
+    "bess_soc_min_percent": "project_config_yaml",
+    "bess_soc_max_percent": "project_config_defaults",
+    "bess_initial_soc_percent": "project_config_yaml",
+    "bess_eff_charge_percent": "project_config_yaml",
+    "bess_eff_discharge_percent": "project_config_yaml"
+  }
+}

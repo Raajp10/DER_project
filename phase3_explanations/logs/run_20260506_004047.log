@@ -1,0 +1,58 @@
+Phase 3 Smoke Explanation Pipeline
+Started: 2026-05-06 00:40:47
+Root: D:\updated_dataset\phase3_explanations
+
+============================================================
+STEP: Check Ollama/Qwen
+============================================================
+
+============================================================
+STEP: Create Smoke Detections
+============================================================
+
+============================================================
+STEP: Build Explanation Inputs
+============================================================
+
+============================================================
+STEP: Run LLM Explanations
+============================================================
+
+============================================================
+STEP: Score Explanations
+============================================================
+
+============================================================
+STEP: Generate Figures
+============================================================
+
+============================================================
+STEP: Generate Reports
+============================================================
+
+============================================================
+STEP: Build ZIP Package
+============================================================
+[OK] Package: D:\updated_dataset\phase3_explanations\phase3_smoke_explanation_package.zip (577 KB)
+
+============================================================
+PHASE 3 SMOKE EXPLANATION PIPELINE - FINAL STATUS
+============================================================
+Ollama ready             : yes
+Qwen model selected      : qwen2.5:3b-instruct
+smoke detections created : 15
+explanation inputs built : 15
+LLM explanations generated: 15
+parsed explanations      : 15
+evidence matrix rows     : 15
+average evidence score   : 0.847
+unsupported claims       : 0
+packet-level claims      : 0
+field telemetry claims   : 0
+external attacker claims : 0
+old asset name claims    : 0
+Phase 3 status           : PHASE3_SMOKE_READY_WAITING_FOR_REAL_MODEL_RESULTS
+final report path        : D:\updated_dataset\phase3_explanations\reports
+package path             : D:\updated_dataset\phase3_explanations\phase3_smoke_explanation_package.zip
+elapsed                  : 1857.8s
+============================================================

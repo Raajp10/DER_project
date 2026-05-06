@@ -1,0 +1,38 @@
+! ============================================================
+! DER_QSTS_debug_1hour.dss
+! Fast 1-hour OpenDSS smoke test for IEEE123 + PV + BESS at Bus 65
+! ============================================================
+
+Compile (IEEE123Master.dss)
+
+! Load daily feeder shapes from the IEEE123 base package.
+Redirect SetDailyLoadShape.DSS
+
+! Add project DER site.
+Redirect DER_site_001.dss
+
+! Energy meter at feeder head.
+New EnergyMeter.Feeder Element=Line.L115 Terminal=1
+
+! PCC monitors: Line.L64 terminal 2 is the Bus 65 side.
+New Monitor.pcc_vi Element=Line.L64 Terminal=2 Mode=0
+New Monitor.pcc_pq Element=Line.L64 Terminal=2 Mode=1
+
+! DER asset monitors.
+New Monitor.pv_pq Element=PVSystem.pv_001 Terminal=1 Mode=1
+New Monitor.bess_pq Element=Storage.bess_001 Terminal=1 Mode=1
+New Monitor.bess_state Element=Storage.bess_001 Terminal=1 Mode=3
+
+Set ControlMode=Static
+Set MaxControlIter=30
+Set Mode=Daily
+Set StepSize=1s
+Set Number=3600
+
+Solve
+
+Export Monitor pcc_vi
+Export Monitor pcc_pq
+Export Monitor pv_pq
+Export Monitor bess_pq
+Export Monitor bess_state

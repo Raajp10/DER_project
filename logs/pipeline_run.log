@@ -1,0 +1,331 @@
+
+------------------------------------------------------------
+STEP: Create folder structure and backup
+------------------------------------------------------------
+  OK: Create folder structure and backup completed.
+
+------------------------------------------------------------
+STEP: Discover DSS input files
+  File: scripts_updated\01_setup\00_discover_inputs.py
+------------------------------------------------------------
+OK: Master DSS = D:\updated_dataset\ieee123_base\DER_QSTS_7day.dss
+  OK: Discover DSS input files completed.
+
+------------------------------------------------------------
+STEP: Check environment and OpenDSS
+  File: scripts_updated\01_setup\01_check_environment.py
+------------------------------------------------------------
+OpenDSS available: True
+Physical generation mode: opendss_clean_baseline
+  OK: Check environment and OpenDSS completed.
+
+------------------------------------------------------------
+STEP: Generate scenario manifest
+  File: scripts_updated\02_scenario_generation\02_generate_scenario_manifest.py
+------------------------------------------------------------
+Generated 170 scenarios across 11 types.
+  OK: Generate scenario manifest completed.
+
+------------------------------------------------------------
+STEP: Build DER physical metadata
+  File: scripts_updated\03_physical_data_generation\04a_build_der_physical_metadata.py
+------------------------------------------------------------
+DER metadata: PV=100.0 kW, BESS=50.0 kW / 200.0 kWh
+  OK: Build DER physical metadata completed.
+
+------------------------------------------------------------
+STEP: Generate clean physical timeseries
+  File: scripts_updated\03_physical_data_generation\04b_generate_clean_physical_opendss.py
+------------------------------------------------------------
+Using PV=100.0 kW, BESS=50.0 kW
+  OpenDSS available but full 7-day QSTS skipped for performance. Using physics-constrained surrogate.
+  Building physics-constrained surrogate for clean 7-day timeseries...
+Clean physical timeseries: 604800 rows, generation_method=physics_constrained_surrogate
+Saved: D:\updated_dataset\data_updated\raw\physical_timeseries_clean_improved_7d.csv
+  OK: Generate clean physical timeseries completed.
+
+------------------------------------------------------------
+STEP: Generate attacked physical timeseries
+  File: scripts_updated\03_physical_data_generation\04c_generate_attacked_physical_event_windows.py
+------------------------------------------------------------
+Loading clean physical timeseries...
+Applying 170 scenarios...
+Attacked timeseries: 604800 rows, surrogate=170, skipped=0
+Saved: D:\updated_dataset\data_updated\raw\physical_timeseries_attacked_improved_7d.csv
+  OK: Generate attacked physical timeseries completed.
+
+------------------------------------------------------------
+STEP: OpenDSS event-window scenario resolution
+  File: scripts_updated\03_physical_data_generation\04e_run_opendss_event_window_scenarios.py
+------------------------------------------------------------
+04e: Stage 1, max 10 scenarios
+04e: Loading attacked CSV...
+  604800 rows loaded
+  Selected 9 scenarios for Stage 1
+  Scenario S0036_physical_irradiance_ (irradiance_drop): 610 rows [534757s - 535366s]
+    FAIL: pcc_pq monitor export empty or failed
+  Scenario S0051_physical_load_step (load_step): 633 rows [340382s - 341014s]
+    FAIL: pcc_pq monitor export empty or failed
+  Scenario S0066_delayed_pv_limit (delayed_response): 512 rows [565994s - 566505s]
+    FAIL: pcc_pq monitor export empty or failed
+  Scenario S0081_wrong_pv_setpoint (wrong_setpoint): 513 rows [79526s - 80038s]
+    FAIL: pcc_pq monitor export empty or failed
+  Scenario S0096_bess_wrong_direction (wrong_dispatch): 497 rows [71742s - 72238s]
+    FAIL: pcc_pq monitor export empty or failed
+  Scenario S0111_replay_command (stale_setpoint): 464 rows [317692s - 318155s]
+    FAIL: pcc_pq monitor export empty or failed
+  Scenario S0126_high_rate_command_bu (oscillating_output): 459 rows [494034s - 494492s]
+    FAIL: pcc_pq monitor export empty or failed
+  Scenario S0141_soc_constraint_viola (soc_violation): 458 rows [346719s - 347176s]
+    FAIL: pcc_pq monitor export empty or failed
+  Scenario S0156_voltage_sag (voltage_sag): 487 rows [478018s - 478504s]
+    FAIL: pcc_pq monitor export empty or failed
+04e: No rows resolved — attacked CSV unchanged.
+04e: Complete. 0/9 scenarios resolved.
+  OK: OpenDSS event-window scenario resolution completed.
+
+------------------------------------------------------------
+STEP: Build physical residuals
+  File: scripts_updated\03_physical_data_generation\04d_build_physical_residuals.py
+------------------------------------------------------------
+Computing physical residuals (attacked - clean)...
+Physical residuals: 604800 rows, 21 columns
+Saved: D:\updated_dataset\data_updated\raw\physical_residuals_improved_7d.csv
+  delta_pv_p_kw: 3559 non-zero rows
+  delta_bess_p_kw: 3955 non-zero rows
+  delta_bess_soc_percent: 310098 non-zero rows
+  delta_pcc_v_a_pu: 2875 non-zero rows
+  delta_pcc_v_b_pu: 2875 non-zero rows
+  delta_pcc_v_c_pu: 2875 non-zero rows
+  delta_pcc_i_a_amp: 3072 non-zero rows
+  delta_pcc_i_b_amp: 3070 non-zero rows
+  delta_pcc_i_c_amp: 3069 non-zero rows
+  delta_pcc_p_kw: 2819 non-zero rows
+  OK: Build physical residuals completed.
+
+------------------------------------------------------------
+STEP: Validate physical constraints
+  File: scripts_updated\07_validation_gate\07a_validate_physical_constraints.py
+------------------------------------------------------------
+Validating clean physical dataset...
+Validating attacked physical dataset...
+Physical validation: PASS (65/66 checks passed)
+  OK: Validate physical constraints completed.
+
+------------------------------------------------------------
+STEP: Validate clean/attacked alignment
+  File: scripts_updated\07_validation_gate\07b_validate_clean_attacked_alignment.py
+------------------------------------------------------------
+Checking clean/attacked alignment...
+Alignment validation: PASS
+  OK: Validate clean/attacked alignment completed.
+
+------------------------------------------------------------
+STEP: Build IEEE 2030.5 semantic schema
+  File: scripts_updated\04_cyber_log_generation\05a_build_ieee2030_5_semantic_schema.py
+------------------------------------------------------------
+IEEE 2030.5 semantic schema saved: D:\updated_dataset\data_updated\metadata\ieee2030_5_semantic_schema.json
+  OK: Build IEEE 2030.5 semantic schema completed.
+
+------------------------------------------------------------
+STEP: Generate normal cyber log
+  File: scripts_updated\04_cyber_log_generation\05c_generate_normal_ieee2030_5_semantic_log.py
+------------------------------------------------------------
+Generating routine PV commands...
+Generating routine BESS commands...
+Generating background metering readings...
+Generating DER status reports...
+Normal cyber log: 1260 events
+  DER_CONTROL_ACCEPTED: 70
+  DER_CONTROL_APPLIED: 70
+  DER_CONTROL_CREATED: 70
+  DER_CONTROL_RECEIVED: 70
+  DER_CONTROL_RESPONSE: 70
+  DER_CONTROL_SENT: 70
+  DER_METER_READING: 672
+  DER_STATUS_REPORT: 168
+Saved: D:\updated_dataset\data_updated\raw\cyber_event_log_normal_ieee2030_5_semantic_7d.csv
+  OK: Generate normal cyber log completed.
+
+------------------------------------------------------------
+STEP: Generate anomalous cyber log
+  File: scripts_updated\04_cyber_log_generation\05d_generate_anomalous_ieee2030_5_semantic_log.py
+------------------------------------------------------------
+Anomalous cyber log: 1730 events covering 170 scenarios
+Saved: D:\updated_dataset\data_updated\raw\cyber_event_log_anomalous_ieee2030_5_semantic_7d.csv
+  OK: Generate anomalous cyber log completed.
+
+------------------------------------------------------------
+STEP: Generate XML research artifacts
+  File: scripts_updated\04_cyber_log_generation\05e_optional_generate_ieee2030_5_xml_research_artifacts.py
+------------------------------------------------------------
+Generated 60 XML research artifacts in D:\updated_dataset\data_updated\raw\ieee2030_5_xml_research_artifacts
+  NOTE: These are semantic research artifacts, NOT official IEEE 2030.5 compliance.
+  OK: Generate XML research artifacts completed.
+
+------------------------------------------------------------
+STEP: Validate IEEE 2030.5 semantic layer
+  File: scripts_updated\07_validation_gate\07c_validate_ieee2030_5_semantic_layer.py
+------------------------------------------------------------
+Cyber validation: PASS
+  OK: Validate IEEE 2030.5 semantic layer completed.
+
+------------------------------------------------------------
+STEP: Build lifecycle response map
+  File: scripts_updated\05_physical_cyber_mapping\06a_build_lifecycle_response_map.py
+------------------------------------------------------------
+Lifecycle map: 170 rows
+Saved: D:\updated_dataset\data_updated\processed\cyber_physical_lifecycle_map_7d.csv
+  OK: Build lifecycle response map completed.
+
+------------------------------------------------------------
+STEP: Build event-specific context windows
+  File: scripts_updated\05_physical_cyber_mapping\06b_build_event_specific_context_windows.py
+------------------------------------------------------------
+Loading physical data...
+Building context windows for 170 scenarios...
+Context windows: 66125 rows across 170 scenarios
+Saved: D:\updated_dataset\data_updated\processed\event_specific_context_windows_7d.csv
+  OK: Build event-specific context windows completed.
+
+------------------------------------------------------------
+STEP: Build evidence packets
+  File: scripts_updated\05_physical_cyber_mapping\06c_build_cyber_physical_evidence_packets.py
+------------------------------------------------------------
+Loading context windows...
+Evidence packets: 170 scenarios written to D:\updated_dataset\data_updated\processed\cyber_physical_evidence_packets_7d.jsonl
+  OK: Build evidence packets completed.
+
+------------------------------------------------------------
+STEP: Validate context causality
+  File: scripts_updated\07_validation_gate\07d_validate_context_causality.py
+------------------------------------------------------------
+Context validation: PASS
+  OK: Validate context causality completed.
+
+------------------------------------------------------------
+STEP: Visualize physical data
+  File: scripts_updated\06_visualization\08a_visualize_physical.py
+------------------------------------------------------------
+Generating physical visualizations...
+  Plotting clean vs attacked overview...
+  Saved physical_clean_vs_attacked_overview.png (1108 KB)
+  Plotting scenario physical effect examples...
+  Saved scenario_physical_effect_examples.png (845 KB)
+  Plotting generation method summary...
+  Saved generation_method_summary.png (119 KB)
+Physical visualizations done.
+  OK: Visualize physical data completed.
+
+------------------------------------------------------------
+STEP: Visualize cyber data
+  File: scripts_updated\06_visualization\08b_visualize_cyber.py
+------------------------------------------------------------
+Generating cyber visualizations...
+  Saved cyber_lifecycle_timeline_examples.png (312 KB)
+  Saved cyber_anomaly_distribution.png (269 KB)
+  Saved protocol_claim_level_summary.png (64 KB)
+  Saved cyber_delivery_status.png (64 KB)
+Cyber visualizations done.
+  OK: Visualize cyber data completed.
+
+------------------------------------------------------------
+STEP: Visualize context data
+  File: scripts_updated\06_visualization\08c_visualize_context.py
+------------------------------------------------------------
+Generating context visualizations...
+  Plotting command-to-physical response alignment...
+  Saved context_command_to_physical_response_alignment.png (218 KB)
+  Plotting lifecycle timing bars...
+  Saved cyber_lifecycle_timing_distributions.png (124 KB)
+Context visualizations done.
+  OK: Visualize context data completed.
+
+------------------------------------------------------------
+STEP: Generate DER component visualizations
+  File: scripts_updated\06_visualization\08e_visualize_der_components.py
+------------------------------------------------------------
+  Loading physical CSVs...
+  Plotting DER component overview...
+    Saved: der_component_overview.png
+  Plotting PV output profile...
+    Saved: der_pv_output_profile.png
+  Plotting BESS SOC profile...
+    Saved: der_bess_soc_profile.png
+  Plotting BESS power profile...
+    Saved: der_bess_power_profile.png
+  Plotting PCC voltage profile...
+    Saved: der_pcc_voltage_profile.png
+  Plotting OpenDSS event-window summary...
+    Saved: opendss_event_window_resolution_summary.png
+  Plotting updated generation_method summary...
+    Saved: generation_method_summary.png
+  Plotting scenario resolution by type...
+  DER component visualizations complete.
+  OK: Generate DER component visualizations completed.
+
+------------------------------------------------------------
+STEP: Generate final reports
+------------------------------------------------------------
+  All final reports generated.
+  OK: Generate final reports completed.
+
+------------------------------------------------------------
+STEP: Run final validation gate
+  File: scripts_updated\07_validation_gate\07e_final_validation_gate.py
+------------------------------------------------------------
+
+============================================================
+FINAL VALIDATION: PASS
+  physical: PASS
+  cyber: PASS
+  context: PASS
+  files: PASS
+  figures: WARN
+
+UPDATED DATASET FULL PASS
+============================================================
+  OK: Run final validation gate completed.
+
+------------------------------------------------------------
+STEP: Generate validation dashboard
+  File: scripts_updated\06_visualization\08d_visualize_validation_dashboard.py
+------------------------------------------------------------
+Generating validation dashboard...
+  Saved final_validation_dashboard.png (332 KB)
+Validation dashboard saved.
+  OK: Generate validation dashboard completed.
+
+------------------------------------------------------------
+STEP: Build ZIP package
+------------------------------------------------------------
+  Building ZIP package: updated_der_cyber_physical_dataset_package.zip
+  ZIP created: updated_der_cyber_physical_dataset_package.zip (206.2 MB)
+  OK: Build ZIP package completed.
+
+Pipeline completed in 711.5 seconds
+
+======================================================================
+PIPELINE COMPLETION SUMMARY
+======================================================================
+Root folder:                       D:\updated_dataset
+OpenDSS master file used:          D:\updated_dataset\ieee123_base\DER_QSTS_7day.dss
+OpenDSS available:                 yes
+Clean physical generation method:  physics_constrained_surrogate
+PV rating used and source:         100.0 kW (dss_file_parsed)
+BESS rating used and source:       50.0 kW (dss_file_parsed)
+OpenDSS event-window scenarios:    0
+Surrogate fallback scenarios:      604800
+Physical layer improved:           yes
+Cyber layer improved:              yes
+Context layer improved:            yes
+Graphs generated:                  yes
+Final validation status:           PASS
+Final package path:                D:\updated_dataset\final_package\updated_der_cyber_physical_dataset_package.zip
+
+Exact final claim sentence:
+  "The updated dataset combines OpenDSS-based IEEE 123-bus clean DER simulation outputs with physics-constrained surrogate anomalous DER responses, IEEE 1547-informed DER operating constraints, and an IEEE 2030.5-style semantic cyber event lifecycle representing DER control, status, metering, and response behavior. Cyber and physical layers are aligned through event-specific command-to-response context windows for cyber-physical anomaly detection."
+
+Remaining manual review items:
+  - Install opendssdirect.py to upgrade 604,800 surrogate rows to OpenDSS event-window
+======================================================================

@@ -1,0 +1,36 @@
+{
+  "project_root": "D:/updated_dataset",
+  "phase2_root": "D:/updated_dataset/phase2_zero_day_eval",
+  "phase3_root": "D:/updated_dataset/phase3_explanations",
+
+  "detection_input_mode": "smoke",
+  "smoke_detection_file": "D:/updated_dataset/phase3_explanations/inputs/smoke_model_detections.csv",
+  "future_real_detection_file": "D:/updated_dataset/phase2_zero_day_eval/outputs/zero_day_model_scores.csv",
+
+  "zero_day_windows": "D:/updated_dataset/phase2_zero_day_eval/outputs/zero_day_windows.parquet",
+  "zero_day_physical_attacked": "D:/updated_dataset/phase2_zero_day_eval/outputs/zero_day_physical_attacked.csv",
+  "zero_day_scenario_manifest": "D:/updated_dataset/phase2_zero_day_eval/outputs/zero_day_scenario_manifest.csv",
+  "zero_day_context_windows": "D:/updated_dataset/phase2_zero_day_eval/outputs/zero_day_context_windows.csv",
+  "zero_day_cyber_event_log": "D:/updated_dataset/phase2_zero_day_eval/outputs/zero_day_cyber_event_log.csv",
+  "zero_day_aligned_1s": "D:/updated_dataset/phase2_zero_day_eval/outputs/zero_day_cyber_physical_aligned_1s.csv",
+  "zero_day_phase3_evidence_packets": "D:/updated_dataset/phase2_zero_day_eval/outputs/zero_day_phase3_evidence_packets.jsonl",
+
+  "ollama_model_primary": "qwen2.5:3b-instruct",
+  "ollama_model_fallback": "qwen2.5:1.5b-instruct",
+  "ollama_host": "http://localhost:11434",
+  "max_prompt_tokens_approx": 3500,
+  "temperature": 0.1,
+  "top_p": 0.9,
+
+  "smoke_detection_count": 15,
+  "include_normal_examples": true,
+  "include_cyber_only_examples": true,
+  "include_physical_only_examples": true,
+  "include_cyber_physical_examples": true,
+
+  "output_json_required": true,
+  "human_summary_required": true,
+  "no_packet_claims_allowed": true,
+  "no_field_telemetry_claims_allowed": true,
+  "no_external_attacker_identity_claims_allowed": true
+}

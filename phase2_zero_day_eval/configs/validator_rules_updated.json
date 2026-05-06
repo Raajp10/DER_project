@@ -1,0 +1,149 @@
+{
+  "description": "Validator rules for Phase 2 zero-day-like scenario bundles",
+  "rules": {
+    "valid_json": true,
+    "valid_schema": true,
+    "scenario_count_exact": 16,
+    "class_counts_exact": {
+      "physical_only": 4,
+      "cyber_only": 4,
+      "cyber_physical": 6,
+      "normal": 2
+    },
+    "unique_scenario_ids": true,
+    "scenario_id_prefix_matches_author_model": true,
+    "valid_author_model": true,
+    "project_compatibility_statement_exact_match": true,
+    "timeline": {
+      "start_time_s_min": 0,
+      "start_time_s_max": 604799,
+      "duration_s_min": 60,
+      "duration_s_max": 1800,
+      "end_within_dataset": true,
+      "end_formula": "start_time_s + duration_s - 1 <= 604799"
+    },
+    "day_coverage": {
+      "must_cover_all_7_days": true,
+      "max_scenarios_per_day": 4,
+      "day_boundaries_seconds": [
+        [0, 86399],
+        [86400, 172799],
+        [172800, 259199],
+        [259200, 345599],
+        [345600, 431999],
+        [432000, 518399],
+        [518400, 604799]
+      ]
+    },
+    "assets": {
+      "allowed_ids": ["der_site_001", "pv_001", "bess_001", "pcc_001"],
+      "forbidden_ids": [
+        "pv35", "pv60", "pv83", "pv76", "pv49", "pv104", "pv114",
+        "bess48", "bess76", "bess108", "bess114"
+      ]
+    },
+    "physical_variables": {
+      "allowed": [
+        "pv_p_kw", "pv_q_kvar",
+        "bess_p_kw", "bess_q_kvar", "bess_soc_percent",
+        "pcc_v_a_pu", "pcc_v_b_pu", "pcc_v_c_pu",
+        "pcc_i_a_amp", "pcc_i_b_amp", "pcc_i_c_amp",
+        "pcc_p_kw", "pcc_q_kvar", "irradiance_pu"
+      ],
+      "forbidden_unconditional": ["temperature_c"],
+      "forbidden_other": ["pcc_freq_hz", "frequency_hz", "grid_frequency", "bus_id", "ieee123_bus"],
+      "irradiance_allowed_only_in_family": "physical_irradiance_like_disturbance"
+    },
+    "physical_bounds": {
+      "pv_p_kw": [0, 100],
+      "pv_q_kvar": [-60, 60],
+      "bess_p_kw": [-50, 50],
+      "bess_q_kvar": [-50, 50],
+      "bess_soc_percent": [5, 95],
+      "pcc_v_a_pu": [0.90, 1.10],
+      "pcc_v_b_pu": [0.90, 1.10],
+      "pcc_v_c_pu": [0.90, 1.10],
+      "pcc_i_a_amp": [0, 500],
+      "pcc_i_b_amp": [0, 500],
+      "pcc_i_c_amp": [0, 500],
+      "pcc_p_kw": [-250, 250],
+      "pcc_q_kvar": [-150, 150],
+      "irradiance_pu": [0, 1.2]
+    },
+    "label_consistency": {
+      "cyber_only_must_have_empty_physical_effects": true,
+      "normal_must_have_empty_physical_effects": true,
+      "normal_must_have_zero_labels": true,
+      "physical_only_and_cyber_physical_must_have_nonempty_physical_effects": true
+    },
+    "cyber_context": {
+      "event_level_only_must_be_true": true,
+      "packet_level_protocol_compliance_claimed_must_be_false": true,
+      "forbidden_fields": [
+        "payload", "packet_bytes", "tcp_flags", "exploit", "malware",
+        "credential", "password", "hash", "shellcode", "buffer_overflow",
+        "sql_injection", "cve_id", "metasploit", "cobalt_strike"
+      ]
+    },
+    "safety_note_required": true
+  },
+  "safe_repairs": {
+    "description": "Repairs applied automatically if safe, documented, and schema-valid",
+    "repairs": [
+      {
+        "id": "neg_magnitude",
+        "condition": "magnitude is negative AND direction is 'increase' or 'decrease'",
+        "action": "Replace magnitude with abs(magnitude). Direction already encodes sign.",
+        "rationale": "Negative magnitudes with explicit direction are redundant negatives. Safe because direction is preserved."
+      },
+      {
+        "id": "field_alias_compatibility_statement",
+        "condition": "top-level key is 'compatibility_statement' (missing 'project_' prefix)",
+        "action": "Map 'compatibility_statement' to 'project_compatibility_statement' before validation.",
+        "rationale": "Known Gemini LLM field name variant. Content is identical."
+      },
+      {
+        "id": "field_alias_scenario_class",
+        "condition": "scenario has 'cyber_physical_type' instead of 'scenario_class'",
+        "action": "Map 'cyber_physical_type' to 'scenario_class'.",
+        "rationale": "Known Gemini LLM field name variant."
+      },
+      {
+        "id": "field_alias_target_asset_id",
+        "condition": "scenario has 'affected_asset' instead of 'target_asset_id'",
+        "action": "Map 'affected_asset' to 'target_asset_id'.",
+        "rationale": "Known Gemini LLM field name variant."
+      },
+      {
+        "id": "missing_scenario_name",
+        "condition": "scenario_name field is absent",
+        "action": "Generate scenario_name from scenario_id by replacing underscores with spaces.",
+        "rationale": "Cosmetic field. Does not affect validation logic."
+      },
+      {
+        "id": "missing_target_component",
+        "condition": "target_component field is absent",
+        "action": "Infer from target_asset_id: pv_001->pv, bess_001->bess, pcc_001->pcc, der_site_001->der_site.",
+        "rationale": "Deterministic mapping. Safe."
+      },
+      {
+        "id": "effect_type_stale_value_hold",
+        "condition": "effect_type is 'stale_value_hold'",
+        "action": "Normalize to 'hold_stale'.",
+        "rationale": "Known Gemini LLM effect type variant. Identical semantic meaning."
+      },
+      {
+        "id": "effect_type_bounded_clip",
+        "condition": "effect_type is 'bounded_clip'",
+        "action": "Normalize to 'clip'.",
+        "rationale": "Known Gemini LLM effect type variant. Identical semantic meaning."
+      },
+      {
+        "id": "effect_type_bounded_oscillation",
+        "condition": "effect_type is 'bounded_oscillation'",
+        "action": "Normalize to 'smooth_oscillation'.",
+        "rationale": "Known Gemini LLM effect type variant. Identical semantic meaning."
+      }
+    ]
+  }
+}

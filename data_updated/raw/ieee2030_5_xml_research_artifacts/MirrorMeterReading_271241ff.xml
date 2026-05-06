@@ -1,0 +1,25 @@
+<!--
+  RESEARCH USE ONLY
+  This XML artifact models IEEE 2030.5-style DER control messages at a semantic level.
+  It is NOT a serialized IEEE 2030.5 protocol message.
+  It is NOT EXI-encoded.
+  It does NOT represent official IEEE 2030.5 compliance.
+  It is generated for research and educational purposes only.
+-->
+<MirrorMeterReading xmlns="urn:ieee:std:2030.5:ns">
+  <mRID>271241ff-8b6c-4486-bdfb-6f1fcf26adef</mRID>
+  <lastUpdateTime>2026-01-01T11:20:12.000Z</lastUpdateTime>
+  <MirrorReadingSet>
+    <MirrorReading>
+      <value>68172</value>
+      <localID>ActivePower</localID>
+    </MirrorReading>
+    <MirrorReading>
+      <value>17830</value>
+      <localID>ReactivePower</localID>
+    </MirrorReading>
+  </MirrorReadingSet>
+  <!-- Research metadata -->
+  <scenarioId>S0134_high_rate_command_bu</scenarioId>
+  <protocolClaimLevel>semantic_ieee2030_5_style</protocolClaimLevel>
+</MirrorMeterReading>

@@ -1,0 +1,54 @@
+! ============================================================
+! DER_QSTS_7day.dss
+! 7-day OpenDSS QSTS base run at 1-second resolution
+!
+! Correct data meaning:
+!   OpenDSS QSTS -> physical data only
+!   Cyber-control log -> generated separately by project scripts
+!
+! PCC definition:
+!   Line.L64 connects Bus 64 to Bus 65.
+!   DER is connected at Bus 65.
+!   Therefore PCC monitor uses Line.L64 terminal 2.
+! ============================================================
+
+Compile (IEEE123Master.dss)
+
+! Load daily load shapes for IEEE123 loads.
+Redirect SetDailyLoadShape.DSS
+
+! Add PV + BESS DER site.
+Redirect DER_site_001.dss
+
+! Energy meter at feeder head.
+New EnergyMeter.Feeder Element=Line.L115 Terminal=1
+
+! PCC monitors on Bus 65 side of Line.L64.
+New Monitor.pcc_vi Element=Line.L64 Terminal=2 Mode=0
+New Monitor.pcc_pq Element=Line.L64 Terminal=2 Mode=1
+
+! Frequency is not exported as a dynamic physical feature in this OpenDSS QSTS base run.
+
+! DER monitors.
+New Monitor.pv_pq Element=PVSystem.pv_001 Terminal=1 Mode=1
+New Monitor.bess_pq Element=Storage.bess_001 Terminal=1 Mode=1
+New Monitor.bess_state Element=Storage.bess_001 Terminal=1 Mode=3
+
+Set ControlMode=Static
+Set MaxControlIter=30
+
+! 7 days * 24 hours/day * 3600 seconds/hour = 604800 seconds.
+Set Mode=Daily
+Set StepSize=1s
+Set Number=604800
+
+Solve
+
+Export Monitor pcc_vi
+Export Monitor pcc_pq
+Export Monitor pv_pq
+Export Monitor bess_pq
+Export Monitor bess_state
+
+Show Voltage LN Nodes
+Show Powers kva Elements

@@ -1,0 +1,795 @@
+{
+  "dataset_id": "cross_llm_zero_day_chatgpt_v2",
+  "author_model": "chatgpt",
+  "generation_purpose": "held_out_zero_day_like_frozen_model_evaluation",
+  "project_compatibility_statement": "I used only the final single-site dataset assets der_site_001, pv_001, bess_001, pcc_001; I did not use old multi-DER asset IDs or packet-level cyber fields.",
+  "scenarios": [
+    {
+      "scenario_id": "zdl_chatgpt_normal_control_001",
+      "scenario_name": "normal overnight BESS idle telemetry variation",
+      "scenario_family": "normal_control_variation",
+      "scenario_class": "normal",
+      "start_time_s": 18000,
+      "duration_s": 600,
+      "target_asset_id": "der_site_001",
+      "target_component": "der_site",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "status",
+        "cyber_event_category": "status_reporting",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 0,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_soc_percent",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Normal event with no physical effect and zero anomaly labels. Operator evidence would be stable BESS power, SOC, and PCC power. Limitation: synthetic baseline variation only.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_soc_dispatch_002",
+      "scenario_name": "low ramp BESS discharge deviation",
+      "scenario_family": "soc_aware_bess_dispatch_anomaly",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 54600,
+      "duration_s": 480,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 7.5,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 90,
+          "effect_application_note": "Apply only inside the event window and clip to BESS active-power bounds."
+        },
+        {
+          "variable": "bess_soc_percent",
+          "effect_type": "absolute_delta",
+          "magnitude": 1.2,
+          "unit": "%",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 180,
+          "effect_application_note": "Apply as a small bounded SOC decrease while preserving the 5 to 95 percent SOC limits."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_soc_percent",
+        "pcc_p_kw",
+        "pcc_i_a_amp"
+      ],
+      "validation_notes": "Plausible bounded BESS dispatch deviation with event-level control context. Model difficulty is moderate because the ramp is small and SOC evidence is slow. Limitation: SOC response is compiler-bounded.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; cyber context is event-level metadata only."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_cyber_delay_003",
+      "scenario_name": "context-only delayed DER status update",
+      "scenario_family": "stale_or_delayed_measurement",
+      "scenario_class": "cyber_only",
+      "start_time_s": 97200,
+      "duration_s": 300,
+      "target_asset_id": "der_site_001",
+      "target_component": "measured_layer",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "telemetry",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "availability",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "delayed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "bess_p_kw",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Cyber-only event has no physical residuals. Operator evidence is delayed event-level reporting with stable physical values. Model difficulty is high for physical-only detectors.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no packet fields or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_pv_curtail_004",
+      "scenario_name": "midday PV curtailment mismatch",
+      "scenario_family": "pv_curtailment_mismatch",
+      "scenario_class": "physical_only",
+      "start_time_s": 132000,
+      "duration_s": 720,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 8.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 120,
+          "effect_application_note": "Apply only during the event window and keep PV active power nonnegative."
+        },
+        {
+          "variable": "pcc_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 5.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 120,
+          "effect_application_note": "Apply a smaller downstream PCC active-power response inside the window."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "pcc_p_kw",
+        "pcc_i_a_amp",
+        "irradiance_pu"
+      ],
+      "validation_notes": "Physical-only PV mismatch is plausible when PV output changes while irradiance remains contextual. Model difficulty is moderate because PV and PCC power move together. Limitation: no cyber anomaly is claimed.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario using bounded physical effects only."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_cyber_suppress_005",
+      "scenario_name": "context-only suppressed control acknowledgement",
+      "scenario_family": "command_suppression",
+      "scenario_class": "cyber_only",
+      "start_time_s": 185400,
+      "duration_s": 360,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "availability",
+        "protocol_profile": "ieee1547_interoperability_inspired",
+        "delivery_status": "suppressed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_q_kvar",
+        "pcc_q_kvar"
+      ],
+      "validation_notes": "Cyber-only suppressed acknowledgement leaves physical variables unchanged. Operator evidence is event-level delivery status mismatch. Model difficulty is high for a detector using only physical windows.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; event-level context only."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_pcc_voltage_006",
+      "scenario_name": "balanced PCC voltage sag disturbance",
+      "scenario_family": "pcc_voltage_deviation",
+      "scenario_class": "physical_only",
+      "start_time_s": 222000,
+      "duration_s": 540,
+      "target_asset_id": "pcc_001",
+      "target_component": "pcc",
+      "physical_effects": [
+        {
+          "variable": "pcc_v_a_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.012,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "Apply a small voltage decrease and clip to the 0.90 to 1.10 pu bounds."
+        },
+        {
+          "variable": "pcc_v_b_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.011,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "Apply a small voltage decrease and clip to the 0.90 to 1.10 pu bounds."
+        },
+        {
+          "variable": "pcc_v_c_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.013,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "Apply a small voltage decrease and clip to the 0.90 to 1.10 pu bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "metering",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pcc_v_a_pu",
+        "pcc_v_b_pu",
+        "pcc_v_c_pu",
+        "pcc_q_kvar"
+      ],
+      "validation_notes": "Bounded physical-only PCC voltage deviation is plausible and remains within voltage limits. Model difficulty is moderate because the magnitude is subtle across phases. Limitation: no cyber cause is asserted.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario with no real field claim."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_coord_response_007",
+      "scenario_name": "coordinated PV reduction and BESS compensation",
+      "scenario_family": "coordinated_pv_bess_response",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 250800,
+      "duration_s": 900,
+      "target_asset_id": "der_site_001",
+      "target_component": "der_site",
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 6.5,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 180,
+          "effect_application_note": "Reduce PV active power only inside the event window while preserving nonnegative PV output."
+        },
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 5.5,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 180,
+          "effect_application_note": "Increase BESS active power as bounded compensation and clip to BESS power limits."
+        },
+        {
+          "variable": "pcc_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 2.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 180,
+          "effect_application_note": "Apply only a small net PCC change because BESS partly offsets PV reduction."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity_access_control",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "bess_p_kw",
+        "pcc_p_kw",
+        "bess_soc_percent",
+        "irradiance_pu"
+      ],
+      "validation_notes": "Plausible coordinated PV and BESS behavior with bounded net PCC effect. Model difficulty is high because compensation can hide aggregate power change. Operator evidence is DER-level mismatch.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; event-level protocol-inspired context only."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_cyber_avail_008",
+      "scenario_name": "context-only availability degradation alert",
+      "scenario_family": "availability_degradation_context_only",
+      "scenario_class": "cyber_only",
+      "start_time_s": 309600,
+      "duration_s": 420,
+      "target_asset_id": "der_site_001",
+      "target_component": "measured_layer",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "security_event",
+        "cyber_event_category": "security_event",
+        "cia_dimension": "availability_monitoring",
+        "protocol_profile": "nistir7628_cybersecurity_inspired",
+        "delivery_status": "context_only"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pcc_p_kw",
+        "pcc_q_kvar",
+        "bess_soc_percent"
+      ],
+      "validation_notes": "Cyber-only availability context creates no physical residuals. Operator evidence is the event-level security category. Model difficulty is high for frozen physical detectors. Limitation: context-only label.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario with no packet-level cyber data."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_osc_bess_009",
+      "scenario_name": "bounded oscillatory BESS reactive response",
+      "scenario_family": "oscillatory_bess_control",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 338400,
+      "duration_s": 600,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_q_kvar",
+          "effect_type": "smooth_oscillation",
+          "magnitude": 6.0,
+          "unit": "kvar",
+          "direction": "bidirectional",
+          "shape": "smooth_oscillation",
+          "ramp_seconds": 60,
+          "effect_application_note": "Apply a smooth bounded oscillation within BESS reactive-power limits."
+        },
+        {
+          "variable": "pcc_q_kvar",
+          "effect_type": "smooth_oscillation",
+          "magnitude": 4.0,
+          "unit": "kvar",
+          "direction": "bidirectional",
+          "shape": "smooth_oscillation",
+          "ramp_seconds": 60,
+          "effect_application_note": "Apply a smaller corresponding PCC reactive-power oscillation inside the event window."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee1547_interoperability_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_q_kvar",
+        "pcc_q_kvar",
+        "pcc_v_a_pu",
+        "pcc_v_b_pu"
+      ],
+      "validation_notes": "Bounded BESS reactive oscillation is plausible and should remain inside power limits. Model difficulty is moderate because periodic shape differs from normal ramps. Operator evidence is Q oscillation.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_irradiance_010",
+      "scenario_name": "localized irradiance-like PV dip",
+      "scenario_family": "physical_irradiance_like_disturbance",
+      "scenario_class": "physical_only",
+      "start_time_s": 356400,
+      "duration_s": 780,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [
+        {
+          "variable": "irradiance_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.12,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 180,
+          "effect_application_note": "Modify irradiance only for this allowed family and keep within irradiance bounds."
+        },
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 7.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 180,
+          "effect_application_note": "Reduce PV active power consistently with the irradiance-like disturbance and keep nonnegative."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "irradiance_pu",
+        "pv_p_kw",
+        "pcc_p_kw",
+        "temperature_c"
+      ],
+      "validation_notes": "Irradiance is modified only in the allowed irradiance-like family, while temperature is not modified. Model difficulty is lower because irradiance and PV power are aligned.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario using bounded environmental-like physical effects."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_pcc_current_011",
+      "scenario_name": "mild PCC current imbalance",
+      "scenario_family": "pcc_voltage_deviation",
+      "scenario_class": "physical_only",
+      "start_time_s": 398400,
+      "duration_s": 480,
+      "target_asset_id": "pcc_001",
+      "target_component": "pcc",
+      "physical_effects": [
+        {
+          "variable": "pcc_i_a_amp",
+          "effect_type": "absolute_delta",
+          "magnitude": 14.0,
+          "unit": "A",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 90,
+          "effect_application_note": "Apply a bounded current increase on phase A and clip to current limits."
+        },
+        {
+          "variable": "pcc_i_b_amp",
+          "effect_type": "absolute_delta",
+          "magnitude": 8.0,
+          "unit": "A",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 90,
+          "effect_application_note": "Apply a smaller bounded current increase on phase B."
+        },
+        {
+          "variable": "pcc_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 4.0,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 90,
+          "effect_application_note": "Apply a mild PCC active-power increase inside the event window."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "metering",
+        "cyber_event_category": "metering",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pcc_i_a_amp",
+        "pcc_i_b_amp",
+        "pcc_i_c_amp",
+        "pcc_p_kw",
+        "pcc_v_a_pu"
+      ],
+      "validation_notes": "Physical-only PCC current imbalance is bounded and does not change frequency or temperature. Model difficulty is moderate because only part of the three-phase pattern changes.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; bounded physical layer only."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_cmd_delay_012",
+      "scenario_name": "BESS command delay with late power response",
+      "scenario_family": "command_delay",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 444600,
+      "duration_s": 660,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "delay_response",
+          "magnitude": 6.0,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "delay",
+          "ramp_seconds": 180,
+          "effect_application_note": "Delay the bounded BESS active-power response within the event window and clip to BESS limits."
+        },
+        {
+          "variable": "pcc_p_kw",
+          "effect_type": "delay_response",
+          "magnitude": 3.5,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "delay",
+          "ramp_seconds": 180,
+          "effect_application_note": "Apply a delayed PCC active-power response coupled to the BESS change."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "availability",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "delayed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "pcc_p_kw",
+        "bess_soc_percent",
+        "pcc_i_a_amp"
+      ],
+      "validation_notes": "Plausible cyber-physical delay with a late but bounded physical response. Model difficulty is high because response timing, not magnitude alone, carries evidence. Limitation: no persistent delay after window.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario with event-level delay context only."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_fdi_context_013",
+      "scenario_name": "context-only integrity alert on telemetry stream",
+      "scenario_family": "false_data_injection_context_only",
+      "scenario_class": "cyber_only",
+      "start_time_s": 477000,
+      "duration_s": 300,
+      "target_asset_id": "pcc_001",
+      "target_component": "measured_layer",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "telemetry",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "integrity",
+        "protocol_profile": "nistir7628_cybersecurity_inspired",
+        "delivery_status": "context_only"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pcc_v_a_pu",
+        "pcc_v_b_pu",
+        "pcc_v_c_pu",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Cyber-only integrity context intentionally produces no physical residual. Operator evidence is event-level integrity classification. Model difficulty is high for physical-only detection.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no payloads or packet fields."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_coord_response_014",
+      "scenario_name": "evening coordinated PV-BESS reactive shift",
+      "scenario_family": "coordinated_pv_bess_response",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 496800,
+      "duration_s": 840,
+      "target_asset_id": "der_site_001",
+      "target_component": "der_site",
+      "physical_effects": [
+        {
+          "variable": "pv_q_kvar",
+          "effect_type": "absolute_delta",
+          "magnitude": 5.0,
+          "unit": "kvar",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 150,
+          "effect_application_note": "Apply bounded PV reactive-power change inside the event window."
+        },
+        {
+          "variable": "bess_q_kvar",
+          "effect_type": "absolute_delta",
+          "magnitude": 5.5,
+          "unit": "kvar",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 150,
+          "effect_application_note": "Apply bounded BESS reactive-power change in the opposite direction."
+        },
+        {
+          "variable": "pcc_q_kvar",
+          "effect_type": "absolute_delta",
+          "magnitude": 2.5,
+          "unit": "kvar",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 150,
+          "effect_application_note": "Apply a small net PCC reactive-power shift because DER responses partially offset."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity_access_control",
+        "protocol_profile": "ieee1547_interoperability_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_q_kvar",
+        "bess_q_kvar",
+        "pcc_q_kvar",
+        "pcc_v_a_pu",
+        "pcc_v_b_pu"
+      ],
+      "validation_notes": "Coordinated PV-BESS reactive shift is bounded and plausible. Model difficulty is high because opposing DER responses reduce aggregate evidence. Operator evidence is asset-level Q mismatch.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; event-level protocol-inspired context only."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_normal_control_015",
+      "scenario_name": "normal midday PV and BESS coordination",
+      "scenario_family": "normal_control_variation",
+      "scenario_class": "normal",
+      "start_time_s": 556200,
+      "duration_s": 900,
+      "target_asset_id": "der_site_001",
+      "target_component": "der_site",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 0,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "bess_p_kw",
+        "pcc_p_kw",
+        "irradiance_pu"
+      ],
+      "validation_notes": "Normal scenario has no physical residual and all labels are zero. Operator evidence is consistent PV, BESS, PCC, and irradiance behavior. Limitation: synthetic normal control variation.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no anomaly or real telemetry claim."
+    },
+    {
+      "scenario_id": "zdl_chatgpt_soc_dispatch_016",
+      "scenario_name": "late-day SOC-aware BESS charge mismatch",
+      "scenario_family": "soc_aware_bess_dispatch_anomaly",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 586800,
+      "duration_s": 720,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 6.5,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 120,
+          "effect_application_note": "Apply a bounded shift toward charging behavior and clip to BESS active-power limits."
+        },
+        {
+          "variable": "bess_soc_percent",
+          "effect_type": "absolute_delta",
+          "magnitude": 1.0,
+          "unit": "%",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 240,
+          "effect_application_note": "Apply a small SOC increase while preserving 5 to 95 percent SOC bounds."
+        },
+        {
+          "variable": "pcc_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 4.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 120,
+          "effect_application_note": "Apply a bounded PCC active-power response inside the event window only."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_soc_percent",
+        "pcc_p_kw",
+        "pcc_i_b_amp"
+      ],
+      "validation_notes": "Plausible SOC-aware BESS mismatch with bounded power and SOC effects. Model difficulty is moderate because SOC evolves slowly. Operator evidence is BESS power direction plus SOC trend.",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; cyber data remains event-level context only."
+    }
+  ]
+}

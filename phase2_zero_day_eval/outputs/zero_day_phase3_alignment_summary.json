@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "total_physical_rows": 604800,
+  "total_aligned_rows": 604800,
+  "total_scenarios": 64,
+  "scenarios_represented": 61,
+  "authors_represented": [
+    "grok",
+    "gemini",
+    "claude",
+    "chatgpt"
+  ],
+  "cyber_event_rows": 282,
+  "context_packet_count": 64,
+  "evidence_packet_count": 64,
+  "overlap_row_count": 830,
+  "validation_errors": [],
+  "validation_warnings": [
+    "Scenarios not represented in aligned table: {'zdl_gemini_phys_004', 'zdl_grok_false_data_011', 'zdl_grok_availability_016'}"
+  ]
+}

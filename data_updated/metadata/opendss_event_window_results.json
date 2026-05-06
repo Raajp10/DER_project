@@ -1,0 +1,76 @@
+{
+  "stage": 1,
+  "timestamp": "2026-05-05T19:42:25.902536+00:00",
+  "total_selected": 9,
+  "successes": 0,
+  "failures": 9,
+  "resolved_rows": 0,
+  "scenarios": [
+    {
+      "scenario_id": "S0036_physical_irradiance_",
+      "effect_type": "irradiance_drop",
+      "status": "FAIL",
+      "error": "pcc_pq monitor export empty or failed",
+      "rows_resolved": 0
+    },
+    {
+      "scenario_id": "S0051_physical_load_step",
+      "effect_type": "load_step",
+      "status": "FAIL",
+      "error": "pcc_pq monitor export empty or failed",
+      "rows_resolved": 0
+    },
+    {
+      "scenario_id": "S0066_delayed_pv_limit",
+      "effect_type": "delayed_response",
+      "status": "FAIL",
+      "error": "pcc_pq monitor export empty or failed",
+      "rows_resolved": 0
+    },
+    {
+      "scenario_id": "S0081_wrong_pv_setpoint",
+      "effect_type": "wrong_setpoint",
+      "status": "FAIL",
+      "error": "pcc_pq monitor export empty or failed",
+      "rows_resolved": 0
+    },
+    {
+      "scenario_id": "S0096_bess_wrong_direction",
+      "effect_type": "wrong_dispatch",
+      "status": "FAIL",
+      "error": "pcc_pq monitor export empty or failed",
+      "rows_resolved": 0
+    },
+    {
+      "scenario_id": "S0111_replay_command",
+      "effect_type": "stale_setpoint",
+      "status": "FAIL",
+      "error": "pcc_pq monitor export empty or failed",
+      "rows_resolved": 0
+    },
+    {
+      "scenario_id": "S0126_high_rate_command_bu",
+      "effect_type": "oscillating_output",
+      "status": "FAIL",
+      "error": "pcc_pq monitor export empty or failed",
+      "rows_resolved": 0
+    },
+    {
+      "scenario_id": "S0141_soc_constraint_viola",
+      "effect_type": "soc_violation",
+      "status": "FAIL",
+      "error": "pcc_pq monitor export empty or failed",
+      "rows_resolved": 0
+    },
+    {
+      "scenario_id": "S0156_voltage_sag",
+      "effect_type": "voltage_sag",
+      "status": "FAIL",
+      "error": "pcc_pq monitor export empty or failed",
+      "rows_resolved": 0
+    }
+  ],
+  "generation_method_counts": {
+    "physics_constrained_surrogate": 604800
+  }
+}

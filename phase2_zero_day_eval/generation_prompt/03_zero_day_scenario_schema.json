@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CrossLLMZeroDayScenarioBundle_FinalDatasetExactMatch_v2",
+  "type": "object",
+  "required": [
+    "dataset_id",
+    "author_model",
+    "generation_purpose",
+    "project_compatibility_statement",
+    "scenarios"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "dataset_id": {"type": "string", "pattern": "^cross_llm_zero_day_(chatgpt|claude|gemini|grok|other)_v[0-9]+$"},
+    "author_model": {"type": "string", "enum": ["chatgpt", "claude", "gemini", "grok", "other"]},
+    "generation_purpose": {"type": "string", "const": "held_out_zero_day_like_frozen_model_evaluation"},
+    "project_compatibility_statement": {
+      "type": "string",
+      "const": "I used only the final single-site dataset assets der_site_001, pv_001, bess_001, pcc_001; I did not use old multi-DER asset IDs or packet-level cyber fields."
+    },
+    "scenarios": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {"$ref": "#/$defs/scenario"}
+    }
+  },
+  "$defs": {
+    "scenario": {
+      "type": "object",
+      "required": [
+        "scenario_id",
+        "scenario_name",
+        "scenario_family",
+        "scenario_class",
+        "start_time_s",
+        "duration_s",
+        "target_asset_id",
+        "target_component",
+        "physical_effects",
+        "cyber_context",
+        "labels",
+        "expected_observable_signals",
+        "validation_notes",
+        "safety_note"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "scenario_id": {"type": "string", "pattern": "^zdl_(chatgpt|claude|gemini|grok|other)_[a-z0-9_]+_[0-9]{3}$"},
+        "scenario_name": {"type": "string", "minLength": 3, "maxLength": 80},
+        "scenario_family": {
+          "type": "string",
+          "enum": [
+            "normal_control_variation",
+            "soc_aware_bess_dispatch_anomaly",
+            "pv_curtailment_mismatch",
+            "stale_or_delayed_measurement",
+            "command_delay",
+            "command_suppression",
+            "oscillatory_bess_control",
+            "pcc_voltage_deviation",
+            "coordinated_pv_bess_response",
+            "false_data_injection_context_only",
+            "availability_degradation_context_only",
+            "physical_irradiance_like_disturbance"
+          ]
+        },
+        "scenario_class": {"type": "string", "enum": ["normal", "cyber_only", "physical_only", "cyber_physical"]},
+        "start_time_s": {"type": "integer", "minimum": 0, "maximum": 604739},
+        "duration_s": {"type": "integer", "minimum": 60, "maximum": 1800},
+        "target_asset_id": {"type": "string", "enum": ["pv_001", "bess_001", "pcc_001", "der_site_001"]},
+        "target_component": {"type": "string", "enum": ["pv", "bess", "pcc", "measured_layer", "der_site"]},
+        "physical_effects": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/physical_effect"},
+          "maxItems": 5
+        },
+        "cyber_context": {"$ref": "#/$defs/cyber_context"},
+        "labels": {"$ref": "#/$defs/labels"},
+        "expected_observable_signals": {
+          "type": "array",
+          "items": {"type": "string", "enum": [
+            "pv_p_kw", "pv_q_kvar", "bess_p_kw", "bess_q_kvar", "bess_soc_percent",
+            "pcc_v_a_pu", "pcc_v_b_pu", "pcc_v_c_pu", "pcc_i_a_amp", "pcc_i_b_amp",
+            "pcc_i_c_amp", "pcc_p_kw", "pcc_q_kvar", "irradiance_pu", "temperature_c"
+          ]},
+          "minItems": 1,
+          "maxItems": 8,
+          "uniqueItems": true
+        },
+        "validation_notes": {"type": "string", "minLength": 20, "maxLength": 600},
+        "safety_note": {"type": "string", "minLength": 20, "maxLength": 400}
+      }
+    },
+    "physical_effect": {
+      "type": "object",
+      "required": ["variable", "effect_type", "magnitude", "unit", "direction", "shape", "ramp_seconds", "effect_application_note"],
+      "additionalProperties": false,
+      "properties": {
+        "variable": {
+          "type": "string",
+          "enum": [
+            "pv_p_kw",
+            "pv_q_kvar",
+            "bess_p_kw",
+            "bess_q_kvar",
+            "bess_soc_percent",
+            "pcc_v_a_pu",
+            "pcc_v_b_pu",
+            "pcc_v_c_pu",
+            "pcc_i_a_amp",
+            "pcc_i_b_amp",
+            "pcc_i_c_amp",
+            "pcc_p_kw",
+            "pcc_q_kvar",
+            "irradiance_pu"
+          ]
+        },
+        "effect_type": {"type": "string", "enum": ["absolute_delta", "relative_delta", "clip", "hold_stale", "smooth_oscillation", "delay_response", "none"]},
+        "magnitude": {"type": "number", "minimum": -100.0, "maximum": 100.0},
+        "unit": {"type": "string", "enum": ["kW", "kvar", "%", "pu", "A", "none"]},
+        "direction": {"type": "string", "enum": ["increase", "decrease", "bidirectional", "none"]},
+        "shape": {"type": "string", "enum": ["step", "ramp", "smooth_oscillation", "hold", "delay", "none"]},
+        "ramp_seconds": {"type": "integer", "minimum": 0, "maximum": 300},
+        "effect_application_note": {"type": "string", "minLength": 10, "maxLength": 400}
+      }
+    },
+    "cyber_context": {
+      "type": "object",
+      "required": ["event_level_only", "message_type", "cyber_event_category", "cia_dimension", "protocol_profile", "delivery_status", "packet_level_protocol_compliance_claimed"],
+      "additionalProperties": false,
+      "properties": {
+        "event_level_only": {"type": "boolean", "const": true},
+        "packet_level_protocol_compliance_claimed": {"type": "boolean", "const": false},
+        "message_type": {"type": "string", "enum": ["monitoring", "telemetry", "status", "control", "security_event"]},
+        "cyber_event_category": {"type": "string", "enum": ["operational_telemetry", "metering", "status_reporting", "device_control", "security_event"]},
+        "cia_dimension": {"type": "string", "enum": ["availability_monitoring", "integrity", "availability", "integrity_access_control", "none"]},
+        "protocol_profile": {"type": "string", "enum": ["ieee2030_5_inspired", "ieee1547_interoperability_inspired", "nistir7628_cybersecurity_inspired", "synthetic_der_event_log"]},
+        "delivery_status": {"type": "string", "enum": ["success", "delayed", "blocked", "suppressed", "replayed", "context_only"]}
+      }
+    },
+    "labels": {
+      "type": "object",
+      "required": ["label_anomaly", "label_cyber_anomaly", "label_physical_anomaly"],
+      "additionalProperties": false,
+      "properties": {
+        "label_anomaly": {"type": "integer", "enum": [0, 1]},
+        "label_cyber_anomaly": {"type": "integer", "enum": [0, 1]},
+        "label_physical_anomaly": {"type": "integer", "enum": [0, 1]}
+      }
+    }
+  }
+}

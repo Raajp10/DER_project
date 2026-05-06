@@ -1,0 +1,94 @@
+{
+  "root": "D:\\updated_dataset",
+  "dss_files_found": 8,
+  "all_dss_files": [
+    {
+      "path": "D:\\updated_dataset\\ieee123_base\\DER_QSTS_7day.dss",
+      "name": "DER_QSTS_7day.dss",
+      "is_master_candidate": true,
+      "is_der_file": true,
+      "has_loadshape": false,
+      "has_monitor": true
+    },
+    {
+      "path": "D:\\updated_dataset\\ieee123_base\\DER_QSTS_debug_1hour.dss",
+      "name": "DER_QSTS_debug_1hour.dss",
+      "is_master_candidate": true,
+      "is_der_file": true,
+      "has_loadshape": false,
+      "has_monitor": true
+    },
+    {
+      "path": "D:\\updated_dataset\\ieee123_base\\DER_site_001.dss",
+      "name": "DER_site_001.dss",
+      "is_master_candidate": false,
+      "is_der_file": true,
+      "has_loadshape": true,
+      "has_monitor": false
+    },
+    {
+      "path": "D:\\updated_dataset\\ieee123_base\\IEEE123Loads.DSS",
+      "name": "IEEE123Loads.DSS",
+      "is_master_candidate": false,
+      "is_der_file": false,
+      "has_loadshape": false,
+      "has_monitor": false
+    },
+    {
+      "path": "D:\\updated_dataset\\ieee123_base\\IEEE123Master.dss",
+      "name": "IEEE123Master.dss",
+      "is_master_candidate": true,
+      "is_der_file": true,
+      "has_loadshape": false,
+      "has_monitor": false
+    },
+    {
+      "path": "D:\\updated_dataset\\ieee123_base\\IEEE123Regulators.DSS",
+      "name": "IEEE123Regulators.DSS",
+      "is_master_candidate": false,
+      "is_der_file": false,
+      "has_loadshape": false,
+      "has_monitor": false
+    },
+    {
+      "path": "D:\\updated_dataset\\ieee123_base\\IEEELineCodes.DSS",
+      "name": "IEEELineCodes.DSS",
+      "is_master_candidate": false,
+      "is_der_file": true,
+      "has_loadshape": false,
+      "has_monitor": false
+    },
+    {
+      "path": "D:\\updated_dataset\\ieee123_base\\SetDailyLoadShape.DSS",
+      "name": "SetDailyLoadShape.DSS",
+      "is_master_candidate": false,
+      "is_der_file": false,
+      "has_loadshape": false,
+      "has_monitor": false
+    }
+  ],
+  "master_dss_file": "D:\\updated_dataset\\ieee123_base\\DER_QSTS_7day.dss",
+  "der_dss_files": [
+    "D:\\updated_dataset\\ieee123_base\\DER_QSTS_7day.dss",
+    "D:\\updated_dataset\\ieee123_base\\DER_QSTS_debug_1hour.dss",
+    "D:\\updated_dataset\\ieee123_base\\DER_site_001.dss",
+    "D:\\updated_dataset\\ieee123_base\\IEEE123Master.dss",
+    "D:\\updated_dataset\\ieee123_base\\IEEELineCodes.DSS"
+  ],
+  "ancillary": {
+    "bus_coord": [
+      "D:\\updated_dataset\\ieee123_base\\BusCoords.dat"
+    ],
+    "config": [
+      "D:\\updated_dataset\\ieee123_base\\configs\\project_config.yaml"
+    ],
+    "csv": [
+      "D:\\updated_dataset\\ieee123_base\\ieee123_Mon_pcc_vi_1.csv",
+      "D:\\updated_dataset\\ieee123_base\\ieee123_Mon_pcc_pq_1.csv",
+      "D:\\updated_dataset\\ieee123_base\\ieee123_Mon_pv_pq_1.csv",
+      "D:\\updated_dataset\\ieee123_base\\ieee123_Mon_bess_pq_1.csv",
+      "D:\\updated_dataset\\ieee123_base\\ieee123_Mon_bess_state_1.csv"
+    ]
+  },
+  "discovery_status": "SUCCESS"
+}

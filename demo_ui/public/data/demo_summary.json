@@ -1,0 +1,20 @@
+{
+  "generated": "2026-05-06T07:04:50.533647Z",
+  "total_demo_scenarios": 15,
+  "presenter_scenarios": 4,
+  "average_evidence_score": 0.8467,
+  "unsupported_claims_count": 0,
+  "packet_level_claims_count": 0,
+  "field_telemetry_claims_count": 0,
+  "detection_mode_display": "Demo mode \u2014 placeholder detection scores",
+  "selected_llm_model": "qwen2.5:3b-instruct",
+  "phase2_scenarios_total": 64,
+  "phase3_detections_total": 15,
+  "data_source": "live",
+  "class_counts": {
+    "cyber_physical": 5,
+    "physical_only": 4,
+    "cyber_only": 4,
+    "normal": 2
+  }
+}

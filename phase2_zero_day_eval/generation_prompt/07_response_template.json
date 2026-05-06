@@ -1,0 +1,47 @@
+{
+  "dataset_id": "cross_llm_zero_day_chatgpt_v2",
+  "author_model": "chatgpt",
+  "generation_purpose": "held_out_zero_day_like_frozen_model_evaluation",
+  "project_compatibility_statement": "I used only the final single-site dataset assets der_site_001, pv_001, bess_001, pcc_001; I did not use old multi-DER asset IDs or packet-level cyber fields.",
+  "scenarios": [
+    {
+      "scenario_id": "zdl_chatgpt_example_001",
+      "scenario_name": "example bounded BESS response anomaly",
+      "scenario_family": "soc_aware_bess_dispatch_anomaly",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 100000,
+      "duration_s": 300,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 8.0,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "Apply only inside event window and clip to BESS power bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": ["bess_p_kw", "bess_soc_percent", "pcc_p_kw"],
+      "validation_notes": "Uses only final dataset BESS/PCC variables and creates bounded physical residual inside the event window.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario; no real exploit or packet-level protocol content."
+    }
+  ]
+}

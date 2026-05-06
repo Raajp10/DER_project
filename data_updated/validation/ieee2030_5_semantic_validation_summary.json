@@ -1,0 +1,281 @@
+{
+  "total": 64,
+  "passed": 64,
+  "warned": 0,
+  "failed": 0,
+  "pass_rate": 100.0,
+  "overall": "PASS",
+  "results": [
+    {
+      "check": "normal_log_exists",
+      "status": "PASS",
+      "rows": 1260
+    },
+    {
+      "check": "normal_event_id_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_event_time_utc_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_time_s_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_der_site_id_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_pcc_id_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_asset_id_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_asset_type_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_lifecycle_stage_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_lifecycle_order_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_protocol_claim_level_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_label_anomaly_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_label_cyber_anomaly_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_label_physical_anomaly_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_cia_dimension_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_authn_status_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_authz_status_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_integrity_status_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_blocked_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_replay_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_mismatch_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_delivery_status_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_communication_outcome_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_ieee2030_5_resource_type_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_ieee2030_5_function_set_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_not_empty",
+      "status": "PASS",
+      "row_count": 1260
+    },
+    {
+      "check": "normal_protocol_claim_level_valid",
+      "status": "PASS",
+      "invalid_rows": 0
+    },
+    {
+      "check": "normal_no_false_packet_claim",
+      "status": "PASS"
+    },
+    {
+      "check": "normal_lifecycle_stages_valid",
+      "status": "PASS",
+      "invalid": 0
+    },
+    {
+      "check": "normal_cia_dimension_no_null",
+      "status": "PASS",
+      "null_count": 0
+    },
+    {
+      "check": "anomalous_log_exists",
+      "status": "PASS",
+      "rows": 1730
+    },
+    {
+      "check": "anomalous_event_id_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_event_time_utc_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_time_s_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_der_site_id_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_pcc_id_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_asset_id_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_asset_type_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_lifecycle_stage_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_lifecycle_order_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_protocol_claim_level_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_label_anomaly_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_label_cyber_anomaly_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_label_physical_anomaly_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_cia_dimension_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_authn_status_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_authz_status_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_integrity_status_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_blocked_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_replay_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_mismatch_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_delivery_status_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_communication_outcome_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_ieee2030_5_resource_type_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_ieee2030_5_function_set_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_not_empty",
+      "status": "PASS",
+      "row_count": 1730
+    },
+    {
+      "check": "anomalous_protocol_claim_level_valid",
+      "status": "PASS",
+      "invalid_rows": 0
+    },
+    {
+      "check": "anomalous_no_false_packet_claim",
+      "status": "PASS"
+    },
+    {
+      "check": "anomalous_lifecycle_stages_valid",
+      "status": "PASS",
+      "invalid": 0
+    },
+    {
+      "check": "anomalous_cia_dimension_no_null",
+      "status": "PASS",
+      "null_count": 0
+    },
+    {
+      "check": "anomalous_blocked_flag_authz_failed",
+      "status": "PASS",
+      "blocked_count": 60
+    },
+    {
+      "check": "anomalous_replay_has_previous_mrid",
+      "status": "PASS",
+      "replay_without_prev": 0
+    },
+    {
+      "check": "anomalous_mismatch_flag_integrity_compromised",
+      "status": "PASS",
+      "mismatch_count": 180
+    },
+    {
+      "check": "anomalous_degraded_has_higher_delay",
+      "status": "PASS",
+      "avg_degraded_s": 2.635,
+      "avg_normal_s": 0.07
+    }
+  ]
+}

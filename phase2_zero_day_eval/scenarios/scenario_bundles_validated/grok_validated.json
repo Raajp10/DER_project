@@ -1,0 +1,623 @@
+{
+  "dataset_id": "cross_llm_zero_day_grok_v1",
+  "author_model": "grok",
+  "generation_purpose": "held_out_zero_day_like_frozen_model_evaluation",
+  "project_compatibility_statement": "I used only the final single-site dataset assets der_site_001, pv_001, bess_001, pcc_001; I did not use old multi-DER asset IDs or packet-level cyber fields.",
+  "scenarios": [
+    {
+      "scenario_id": "zdl_grok_normal_control_001",
+      "scenario_name": "Normal BESS SOC-aware dispatch variation Day 1",
+      "scenario_family": "normal_control_variation",
+      "scenario_class": "normal",
+      "start_time_s": 43200,
+      "duration_s": 300,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "none",
+        "protocol_profile": "ieee1547_interoperability_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 0,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_soc_percent"
+      ],
+      "validation_notes": "Normal bounded control variation with no anomaly labels or physical residuals. Uses only approved final dataset assets and features.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_oscillatory_bess_002",
+      "scenario_name": "Subtle oscillatory BESS control anomaly Day 1",
+      "scenario_family": "oscillatory_bess_control",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 72000,
+      "duration_s": 600,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "relative_delta",
+          "magnitude": 5.0,
+          "unit": "kW",
+          "direction": "bidirectional",
+          "shape": "smooth_oscillation",
+          "ramp_seconds": 30,
+          "effect_application_note": "Smooth bounded oscillation applied only inside event window, clipped to physical bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_soc_percent",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Oscillatory BESS control with bounded physical effect inside window. Matches Grok focus and validator rules.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_availability_degradation_003",
+      "scenario_name": "Availability degradation context Day 2",
+      "scenario_family": "availability_degradation_context_only",
+      "scenario_class": "cyber_only",
+      "start_time_s": 95000,
+      "duration_s": 180,
+      "target_asset_id": "der_site_001",
+      "target_component": "measured_layer",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "status",
+        "cyber_event_category": "status_reporting",
+        "cia_dimension": "availability",
+        "protocol_profile": "nistir7628_cybersecurity_inspired",
+        "delivery_status": "delayed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pcc_v_a_pu"
+      ],
+      "validation_notes": "Cyber-only availability degradation with no physical changes. Covers Day 2.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_pcc_voltage_004",
+      "scenario_name": "PCC voltage deviation physical anomaly Day 2",
+      "scenario_family": "pcc_voltage_deviation",
+      "scenario_class": "physical_only",
+      "start_time_s": 140000,
+      "duration_s": 420,
+      "target_asset_id": "pcc_001",
+      "target_component": "pcc",
+      "physical_effects": [
+        {
+          "variable": "pcc_v_a_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.04,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 90,
+          "effect_application_note": "Bounded voltage deviation applied only inside event window."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pcc_v_a_pu",
+        "pcc_v_b_pu",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Physical-only PCC deviation. No cyber anomaly.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_command_delay_005",
+      "scenario_name": "Command delay cyber-physical response Day 3",
+      "scenario_family": "command_delay",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 190000,
+      "duration_s": 480,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "delay_response",
+          "magnitude": 0.0,
+          "unit": "none",
+          "direction": "none",
+          "shape": "delay",
+          "ramp_seconds": 120,
+          "effect_application_note": "Delayed physical response to command within event window only."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "delayed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Command delay with bounded physical mismatch inside window.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_stale_measurement_006",
+      "scenario_name": "Stale measurement cyber context Day 4",
+      "scenario_family": "stale_or_delayed_measurement",
+      "scenario_class": "cyber_only",
+      "start_time_s": 270000,
+      "duration_s": 240,
+      "target_asset_id": "der_site_001",
+      "target_component": "measured_layer",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "telemetry",
+        "cyber_event_category": "metering",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee1547_interoperability_inspired",
+        "delivery_status": "replayed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pcc_i_a_amp"
+      ],
+      "validation_notes": "Cyber-only stale measurement, no physical change.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_oscillatory_bess_007",
+      "scenario_name": "BESS oscillatory control Day 4",
+      "scenario_family": "oscillatory_bess_control",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 310000,
+      "duration_s": 720,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_q_kvar",
+          "effect_type": "relative_delta",
+          "magnitude": 8.0,
+          "unit": "kvar",
+          "direction": "bidirectional",
+          "shape": "smooth_oscillation",
+          "ramp_seconds": 45,
+          "effect_application_note": "Smooth oscillation within BESS Q bounds inside event window."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_q_kvar",
+        "pcc_q_kvar"
+      ],
+      "validation_notes": "Second oscillatory BESS scenario meeting Grok focus requirements.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_coordinated_pv_bess_008",
+      "scenario_name": "Coordinated PV-BESS mismatch Day 5",
+      "scenario_family": "coordinated_pv_bess_response",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 370000,
+      "duration_s": 360,
+      "target_asset_id": "der_site_001",
+      "target_component": "der_site",
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 12.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "Coordinated response mismatch with BESS."
+        },
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 10.0,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "Compensating BESS action within bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity_access_control",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "bess_p_kw",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Coordinated anomaly meeting coverage rules.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_physical_irradiance_009",
+      "scenario_name": "Irradiance-like disturbance Day 5",
+      "scenario_family": "physical_irradiance_like_disturbance",
+      "scenario_class": "physical_only",
+      "start_time_s": 410000,
+      "duration_s": 300,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [
+        {
+          "variable": "irradiance_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.25,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "step",
+          "ramp_seconds": 0,
+          "effect_application_note": "Temporary irradiance-like drop affecting PV output, only for this family."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "irradiance_pu",
+        "pv_p_kw"
+      ],
+      "validation_notes": "Physical-only irradiance disturbance per rules. Temperature unchanged.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_command_suppression_010",
+      "scenario_name": "Command suppression BESS Day 6",
+      "scenario_family": "command_suppression",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 460000,
+      "duration_s": 540,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "hold_stale",
+          "magnitude": 0.0,
+          "unit": "none",
+          "direction": "none",
+          "shape": "hold",
+          "ramp_seconds": 0,
+          "effect_application_note": "Suppressed command leads to stale power hold inside window."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "availability",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "suppressed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_soc_percent"
+      ],
+      "validation_notes": "Command suppression with physical mismatch.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_false_data_011",
+      "scenario_name": "False data injection context Day 6",
+      "scenario_family": "false_data_injection_context_only",
+      "scenario_class": "cyber_only",
+      "start_time_s": 500000,
+      "duration_s": 210,
+      "target_asset_id": "der_site_001",
+      "target_component": "measured_layer",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "telemetry",
+        "cyber_event_category": "metering",
+        "cia_dimension": "integrity",
+        "protocol_profile": "nistir7628_cybersecurity_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pcc_v_a_pu"
+      ],
+      "validation_notes": "Cyber context only false data, no physical change.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_pv_curtailment_012",
+      "scenario_name": "PV curtailment mismatch physical Day 6",
+      "scenario_family": "pv_curtailment_mismatch",
+      "scenario_class": "physical_only",
+      "start_time_s": 540000,
+      "duration_s": 390,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "clip",
+          "magnitude": 45.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "step",
+          "ramp_seconds": 0,
+          "effect_application_note": "Unexpected curtailment within bounds. Observable as mismatch between irradiance and actual PV output."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "irradiance_pu"
+      ],
+      "validation_notes": "Physical-only PV curtailment mismatch. The clip at 45 kW represents an inverter-level active-power limit (firmware protection or hardware derating) that is observable as a mismatch between available irradiance and actual output, with no cyber anomaly required. Repaired from cyber_physical to physical_only: class counts corrected from (3+7) to (4+6).",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_pcc_voltage_013",
+      "scenario_name": "PCC current deviation physical Day 7",
+      "scenario_family": "pcc_voltage_deviation",
+      "scenario_class": "physical_only",
+      "start_time_s": 550000,
+      "duration_s": 480,
+      "target_asset_id": "pcc_001",
+      "target_component": "pcc",
+      "physical_effects": [
+        {
+          "variable": "pcc_i_a_amp",
+          "effect_type": "absolute_delta",
+          "magnitude": 35.0,
+          "unit": "A",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 120,
+          "effect_application_note": "Bounded current deviation."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pcc_i_a_amp",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Physical-only PCC observable anomaly.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_soc_aware_014",
+      "scenario_name": "SOC aware BESS dispatch anomaly Day 7",
+      "scenario_family": "soc_aware_bess_dispatch_anomaly",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 570000,
+      "duration_s": 660,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_soc_percent",
+          "effect_type": "absolute_delta",
+          "magnitude": 7.0,
+          "unit": "%",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 180,
+          "effect_application_note": "SOC deviation within 5-95% bounds inside window."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee1547_interoperability_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_soc_percent",
+        "bess_p_kw"
+      ],
+      "validation_notes": "BESS SOC anomaly with physical effect.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_normal_control_015",
+      "scenario_name": "Normal PV control variation Day 7",
+      "scenario_family": "normal_control_variation",
+      "scenario_class": "normal",
+      "start_time_s": 595000,
+      "duration_s": 250,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 0,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "irradiance_pu"
+      ],
+      "validation_notes": "Second normal control variation. No effects.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    },
+    {
+      "scenario_id": "zdl_grok_availability_016",
+      "scenario_name": "Cyber availability degradation Day 3",
+      "scenario_family": "availability_degradation_context_only",
+      "scenario_class": "cyber_only",
+      "start_time_s": 220000,
+      "duration_s": 300,
+      "target_asset_id": "der_site_001",
+      "target_component": "der_site",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "status",
+        "cyber_event_category": "status_reporting",
+        "cia_dimension": "availability",
+        "protocol_profile": "nistir7628_cybersecurity_inspired",
+        "delivery_status": "blocked"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pcc_v_c_pu"
+      ],
+      "validation_notes": "Additional cyber-only for coverage. Day 3.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; no real exploit or packet-level protocol content."
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+# Python caches
+__pycache__/
+*/__pycache__/
+*.pyc
+*.pyo
+
+# Archives and packaged outputs
+*.zip
+/final_package/
+
+# Backups and alternate exports
+/original_input_backup/
+/backup_before_opendss_event_windows/
+/demo_results_figures/
+/models_fusion_v3/
+
+# Markdown docs/reports are excluded for now, except the main README
+*.md
+!README_UPDATED_DATASET.md
+!README.md
+!phase2_zero_day_eval/generation_prompt/*.md
+!phase3_explanations/prompts/*.md
+!phase3_explanations/docs/*.md
+
+# Demo UI generated/install artifacts
+/demo_ui/node_modules/
+/demo_ui/screenshots/
+/demo_ui/reports/
+/demo_ui/public/data/fallback_*.json
+
+# Models: keep scripts only and an empty results folder
+/models/windows/
+/models/weights/
+/models/figures/
+/models/reports/
+/models/docs/
+/models/logs/
+/models/reports_improved/
+/models/results_improved/
+/models/figures_improved/
+/models/weights_improved/
+/models/backup_before_fast_improvement/
+/models/results/**
+!/models/results/
+!/models/results/.gitkeep
+
+# Exclude improved/versioned model runner content
+/models/run_phase1_fast_improvement_v2.py
+/models/run_phase1_fast_improvement_v2.bat
+/models/train/fast_improvement_utils.py
+/models/train/fast_threshold_optimization.py
+/models/train/train_tcn_fast_v2.py
+/models/train/fast_ensembles_v2.py
+/models/evaluate/finalize_fast_improvement.py
+
+# Phase 3: keep scripts/prompts/docs, but exclude generated input/output tables
+/phase3_explanations/inputs/
+/phase3_explanations/outputs/

@@ -1,0 +1,42 @@
+{
+  "total": 6,
+  "passed": 6,
+  "warned": 0,
+  "failed": 0,
+  "pass_rate": 100.0,
+  "overall": "PASS",
+  "results": [
+    {
+      "check": "row_count_match",
+      "status": "PASS",
+      "clean": 604800,
+      "attacked": 604800
+    },
+    {
+      "check": "time_s_exact_match",
+      "status": "PASS"
+    },
+    {
+      "check": "first_timestamp_match",
+      "status": "PASS",
+      "clean": "2026-01-01T00:00:00Z",
+      "attacked": "2026-01-01T00:00:00Z"
+    },
+    {
+      "check": "last_timestamp_match",
+      "status": "PASS",
+      "clean": "2026-01-07T23:59:59Z",
+      "attacked": "2026-01-07T23:59:59Z"
+    },
+    {
+      "check": "clean_no_time_gaps",
+      "status": "PASS",
+      "gaps": 0
+    },
+    {
+      "check": "attacked_no_time_gaps",
+      "status": "PASS",
+      "gaps": 0
+    }
+  ]
+}

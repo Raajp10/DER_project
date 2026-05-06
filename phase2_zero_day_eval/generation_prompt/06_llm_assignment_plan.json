@@ -1,0 +1,74 @@
+{
+  "purpose": "Force diversity across LLM-authored held-out test sets.",
+  "shared_rules": {
+    "scenario_count_per_model": 16,
+    "same_baseline": "data/raw/physical_timeseries_normal_7d.csv",
+    "frozen_model_evaluation": true,
+    "no_retraining_on_llm_scenarios": true
+  },
+  "assignments": {
+    "chatgpt": {
+      "dataset_id": "cross_llm_zero_day_chatgpt_v1",
+      "focus": [
+        "soc_aware_bess_dispatch_anomaly",
+        "coordinated_pv_bess_response",
+        "pcc_voltage_deviation"
+      ],
+      "timeline_bias": "spread events across Days 1, 3, 5, and 7 with several low-irradiance or transition-time BESS cases",
+      "must_include": [
+        "at least 3 BESS SOC/power scenarios",
+        "at least 2 coordinated PV+BESS scenarios"
+      ]
+    },
+    "claude": {
+      "dataset_id": "cross_llm_zero_day_claude_v1",
+      "focus": [
+        "pv_curtailment_mismatch",
+        "stale_or_delayed_measurement",
+        "command_suppression"
+      ],
+      "timeline_bias": "spread events across Days 1, 2, 4, and 6 with morning/midday PV cases",
+      "must_include": [
+        "at least 3 PV scenarios",
+        "at least 2 stale/delayed measurement context scenarios"
+      ]
+    },
+    "gemini": {
+      "dataset_id": "cross_llm_zero_day_gemini_v1",
+      "focus": [
+        "pcc_voltage_deviation",
+        "coordinated_pv_bess_response",
+        "physical_irradiance_like_disturbance"
+      ],
+      "timeline_bias": "spread events across Days 2, 3, 5, and 7 with PCC voltage/power stress cases",
+      "must_include": [
+        "at least 3 PCC voltage/current/power observable scenarios",
+        "at least 2 physical_only class scenarios using allowed families"
+      ]
+    },
+    "grok": {
+      "dataset_id": "cross_llm_zero_day_grok_v1",
+      "focus": [
+        "oscillatory_bess_control",
+        "command_delay",
+        "availability_degradation_context_only"
+      ],
+      "timeline_bias": "spread events across Days 1, 4, 6, and 7 with oscillatory and delayed-response cases",
+      "must_include": [
+        "at least 2 oscillatory BESS scenarios",
+        "at least 2 cyber_only availability/context scenarios"
+      ]
+    },
+    "other": {
+      "dataset_id": "cross_llm_zero_day_other_v1",
+      "focus": [
+        "balanced mix of all families"
+      ],
+      "timeline_bias": "must cover all 7 days",
+      "must_include": [
+        "no more than 4 scenarios from any one family"
+      ]
+    }
+  },
+  "compatibility_note": "These assignments target the final single-site dataset only. Do not use old IEEE123 multi-DER asset names. Scenario families are intentionally held-out test families and do not need to match training families."
+}

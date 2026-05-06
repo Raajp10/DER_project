@@ -1,0 +1,79 @@
+{
+  "total": 15,
+  "passed": 14,
+  "warned": 1,
+  "failed": 0,
+  "pass_rate": 93.3,
+  "overall": "PASS",
+  "results": [
+    {
+      "check": "lifecycle_map_exists",
+      "status": "PASS",
+      "path": "D:\\updated_dataset\\data_updated\\processed\\cyber_physical_lifecycle_map_7d.csv"
+    },
+    {
+      "check": "context_windows_exists",
+      "status": "PASS",
+      "path": "D:\\updated_dataset\\data_updated\\processed\\event_specific_context_windows_7d.csv"
+    },
+    {
+      "check": "evidence_packets_exists",
+      "status": "PASS",
+      "path": "D:\\updated_dataset\\data_updated\\processed\\cyber_physical_evidence_packets_7d.jsonl"
+    },
+    {
+      "check": "ctx_cyber_active_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "ctx_command_active_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "ctx_physical_effect_active_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "ctx_attack_active_flag_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "ctx_generation_method_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "ctx_protocol_claim_level_exists",
+      "status": "PASS"
+    },
+    {
+      "check": "attack_flag_not_all_rows",
+      "status": "PASS",
+      "attack_fraction": 0.097
+    },
+    {
+      "check": "cyber_only_no_physical_flag",
+      "status": "PASS",
+      "fraction_with_phys_flag": 0.0
+    },
+    {
+      "check": "physical_only_no_malicious_cyber_flag",
+      "status": "WARN",
+      "fraction": 0.287
+    },
+    {
+      "check": "ctx_generation_method_no_null",
+      "status": "PASS",
+      "null_count": 0
+    },
+    {
+      "check": "ctx_protocol_claim_level_no_null",
+      "status": "PASS",
+      "null_count": 0
+    },
+    {
+      "check": "evidence_packets_not_empty",
+      "status": "PASS",
+      "size_bytes": 392509
+    }
+  ]
+}

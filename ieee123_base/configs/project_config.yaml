@@ -1,0 +1,107 @@
+project:
+  name: DER_Black_Box
+  base_time_utc: '2026-01-01T00:00:00Z'
+  time_step_s: 1
+  nominal_frequency_hz: 60.0
+  random_seed: 42
+
+opendss:
+  # Relative to DER_Project root directory.
+  # In Python, resolve with: Path(config_path).parent.parent / config['opendss']['ieee123_master_dss']
+  ieee123_master_dss: ./ieee123_base/IEEE123Master.dss
+  der_site_dss: ./ieee123_base/DER_site_001.dss
+  qsts_script_dss: ./ieee123_base/DER_QSTS_7day.dss
+  debug_duration_s: 3600
+  full_duration_s: 604800
+
+der_site:
+  der_site_id: der_site_001
+  pcc_id: pcc_001
+  candidate_buses:
+    - '65'
+    - '72'
+    - '97'
+  selected_bus: '65'
+  pcc_element: LINE.l64
+  pcc_terminal: 2
+  pcc_monitor_vi: pcc_vi
+  pcc_monitor_pq: pcc_pq
+
+pv:
+  asset_id: pv_001
+  dss_element: PVSystem.pv_001
+  rated_kw: 100.0
+  rated_kva: 111.11
+  rated_kv: 4.16
+  pf: 1.0
+  irradiance_ref_w_m2: 1000.0
+
+bess:
+  asset_id: bess_001
+  dss_element: Storage.bess_001
+  rated_kw: 50.0
+  rated_kwh: 200.0
+  initial_soc_percent: 50.0
+  min_soc_percent: 10.0
+  rated_kv: 4.16
+  eff_charge_percent: 95.0
+  eff_discharge_percent: 95.0
+
+conventions:
+  bess_positive_kw: discharge
+  bess_negative_kw: charge
+  normal_response_threshold_s: 2
+
+evidence_window:
+  pre_event_s: 60
+  post_event_s: 120
+  total_rows: 180
+  stride: null
+  note: NO STRIDE. Evidence windows are fixed around command events.
+
+ml_windowing:
+  main_window_s: 60
+  main_stride_s: 10
+  overlap_s: 50
+  overlap_percent: 83.3
+  overlap_label_fraction: 0.2
+  note: ONLY for Week 8+ model training. Do NOT use this stride for Week 5-7 evidence windows.
+  ablations:
+    - window_s: 10
+      stride_s: 2
+    - window_s: 30
+      stride_s: 5
+    - window_s: 60
+      stride_s: 10
+    - window_s: 120
+      stride_s: 20
+    - window_s: 300
+      stride_s: 60
+      optional: true
+
+modeling:
+  physical_features:
+    - pv_p_kw
+    - pv_q_kvar
+    - bess_p_kw
+    - bess_q_kvar
+    - bess_soc_percent
+    - pcc_v_a_pu
+    - pcc_v_b_pu
+    - pcc_v_c_pu
+    - pcc_i_a_amp
+    - pcc_i_b_amp
+    - pcc_i_c_amp
+    - pcc_p_kw
+    - pcc_q_kvar
+    - irradiance_pu
+    - temperature_c
+
+profiles:
+  num_days: 7
+  weather_diversity: true
+  load_diversity: true
+  bess_schedule_diversity: true
+
+notes:
+  frequency_feature: "pcc_freq_hz removed from OpenDSS physical model features; nominal_frequency_hz is metadata only unless a separate verified frequency source is added."

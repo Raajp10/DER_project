@@ -1,0 +1,649 @@
+{
+  "dataset_id": "cross_llm_zero_day_claude_v1",
+  "author_model": "claude",
+  "generation_purpose": "held_out_zero_day_like_frozen_model_evaluation",
+  "project_compatibility_statement": "I used only the final single-site dataset assets der_site_001, pv_001, bess_001, pcc_001; I did not use old multi-DER asset IDs or packet-level cyber fields.",
+  "scenarios": [
+    {
+      "scenario_id": "zdl_claude_pv_curtail_001",
+      "scenario_name": "morning PV curtailment mismatch",
+      "scenario_family": "pv_curtailment_mismatch",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 25200,
+      "duration_s": 420,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 12.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 90,
+          "effect_application_note": "Apply curtailment reduction during event window only; clip to nonnegative PV power bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "pv_q_kvar",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Uses only final dataset PV/PCC variables and creates bounded physical residual inside the event window during morning ramp-up period.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_stale_meas_002",
+      "scenario_name": "delayed BESS SOC telemetry",
+      "scenario_family": "stale_or_delayed_measurement",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 172900,
+      "duration_s": 240,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_soc_percent",
+          "effect_type": "hold_stale",
+          "magnitude": 0.0,
+          "unit": "%",
+          "direction": "none",
+          "shape": "hold",
+          "ramp_seconds": 0,
+          "effect_application_note": "Hold SOC value at event start for duration; creates stale measurement appearance while actual SOC drifts."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "telemetry",
+        "cyber_event_category": "metering",
+        "cia_dimension": "availability_monitoring",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "delayed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_soc_percent",
+        "bess_p_kw"
+      ],
+      "validation_notes": "Creates subtle stale measurement condition where SOC appears frozen while BESS continues operating; stays within 5-95% bounds.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_cmd_suppress_003",
+      "scenario_name": "suppressed reactive power command",
+      "scenario_family": "command_suppression",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 345700,
+      "duration_s": 360,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [
+        {
+          "variable": "pv_q_kvar",
+          "effect_type": "absolute_delta",
+          "magnitude": 8.5,
+          "unit": "kvar",
+          "direction": "increase",
+          "shape": "step",
+          "ramp_seconds": 0,
+          "effect_application_note": "Apply reactive power deviation inside event window; maintain within PV reactive power bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee1547_interoperability_inspired",
+        "delivery_status": "suppressed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_q_kvar",
+        "pcc_q_kvar"
+      ],
+      "validation_notes": "Represents suppressed volt-var control command creating reactive power deviation; bounded within PV reactive limits.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_pv_midday_004",
+      "scenario_name": "midday PV power reduction",
+      "scenario_family": "pv_curtailment_mismatch",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 262800,
+      "duration_s": 600,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "relative_delta",
+          "magnitude": 15.0,
+          "unit": "%",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 120,
+          "effect_application_note": "Apply percentage reduction to current PV output during event window; clip to zero lower bound."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "pcc_p_kw",
+        "irradiance_pu"
+      ],
+      "validation_notes": "Midday curtailment creates detectable mismatch between irradiance and actual PV output; uses percentage-based effect.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_stale_pcc_005",
+      "scenario_name": "frozen PCC voltage reading",
+      "scenario_family": "stale_or_delayed_measurement",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 518500,
+      "duration_s": 300,
+      "target_asset_id": "pcc_001",
+      "target_component": "measured_layer",
+      "physical_effects": [
+        {
+          "variable": "pcc_v_a_pu",
+          "effect_type": "hold_stale",
+          "magnitude": 0.0,
+          "unit": "pu",
+          "direction": "none",
+          "shape": "hold",
+          "ramp_seconds": 0,
+          "effect_application_note": "Hold phase A voltage at event start value for duration; maintains voltage within 0.90-1.10 pu bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "availability_monitoring",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "delayed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pcc_v_a_pu",
+        "pcc_v_b_pu",
+        "pcc_v_c_pu"
+      ],
+      "validation_notes": "Creates single-phase stale voltage measurement while other phases update normally; subtle cross-phase inconsistency.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_delayed_cmd_006",
+      "scenario_name": "delayed BESS discharge response",
+      "scenario_family": "command_delay",
+      "scenario_class": "cyber_physical",
+      "start_time_s": 86500,
+      "duration_s": 480,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 15.0,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "delay",
+          "ramp_seconds": 180,
+          "effect_application_note": "Delayed discharge command creates late power ramp; apply inside event window with extended ramp time to simulate delay."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "availability",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "delayed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_soc_percent",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Represents delayed control response with extended ramp period; stays within BESS power bounds.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_false_data_007",
+      "scenario_name": "false SOC reporting context",
+      "scenario_family": "false_data_injection_context_only",
+      "scenario_class": "cyber_only",
+      "start_time_s": 432100,
+      "duration_s": 180,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "telemetry",
+        "cyber_event_category": "metering",
+        "cia_dimension": "integrity",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "context_only"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "bess_soc_percent"
+      ],
+      "validation_notes": "Cyber-only context scenario with no physical layer residual; represents logged false data event without physical manifestation.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_availability_008",
+      "scenario_name": "telemetry availability degradation",
+      "scenario_family": "availability_degradation_context_only",
+      "scenario_class": "cyber_only",
+      "start_time_s": 194500,
+      "duration_s": 240,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "status",
+        "cyber_event_category": "status_reporting",
+        "cia_dimension": "availability",
+        "protocol_profile": "nistir7628_cybersecurity_inspired",
+        "delivery_status": "context_only"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pv_p_kw"
+      ],
+      "validation_notes": "Cyber-only availability event with no physical residual; tests detection of cyber-layer events without physical signatures.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_security_009",
+      "scenario_name": "security event log entry",
+      "scenario_family": "availability_degradation_context_only",
+      "scenario_class": "cyber_only",
+      "start_time_s": 301000,
+      "duration_s": 120,
+      "target_asset_id": "der_site_001",
+      "target_component": "der_site",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "security_event",
+        "cyber_event_category": "security_event",
+        "cia_dimension": "integrity_access_control",
+        "protocol_profile": "nistir7628_cybersecurity_inspired",
+        "delivery_status": "context_only"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Site-level security event with no physical manifestation; represents cyber context logging only.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_context_010",
+      "scenario_name": "blocked control message context",
+      "scenario_family": "command_suppression",
+      "scenario_class": "cyber_only",
+      "start_time_s": 403200,
+      "duration_s": 180,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "availability",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "blocked"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "bess_p_kw"
+      ],
+      "validation_notes": "Cyber-only blocked command with no physical effect; tests cyber context detection without physical residuals.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_phys_irrad_011",
+      "scenario_name": "cloud transient irradiance drop",
+      "scenario_family": "physical_irradiance_like_disturbance",
+      "scenario_class": "physical_only",
+      "start_time_s": 219000,
+      "duration_s": 420,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [
+        {
+          "variable": "irradiance_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.25,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 120,
+          "effect_application_note": "Simulate cloud transient with bounded irradiance reduction; clip to zero lower bound."
+        },
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 18.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 120,
+          "effect_application_note": "Corresponding PV power reduction due to irradiance drop; clip to zero."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "irradiance_pu",
+        "pv_p_kw",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Physical-only irradiance disturbance family scenario; creates coordinated irradiance and PV power reduction within bounds.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_phys_pcc_012",
+      "scenario_name": "PCC voltage sag event",
+      "scenario_family": "pcc_voltage_deviation",
+      "scenario_class": "physical_only",
+      "start_time_s": 475000,
+      "duration_s": 180,
+      "target_asset_id": "pcc_001",
+      "target_component": "pcc",
+      "physical_effects": [
+        {
+          "variable": "pcc_v_a_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.06,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "step",
+          "ramp_seconds": 0,
+          "effect_application_note": "Apply voltage sag to phase A; maintain within 0.90-1.10 pu bounds."
+        },
+        {
+          "variable": "pcc_v_b_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.05,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "step",
+          "ramp_seconds": 0,
+          "effect_application_note": "Apply voltage sag to phase B; maintain within 0.90-1.10 pu bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pcc_v_a_pu",
+        "pcc_v_b_pu",
+        "pcc_v_c_pu"
+      ],
+      "validation_notes": "Physical-only PCC voltage deviation with unbalanced sag across phases; stays within voltage bounds.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_phys_bess_013",
+      "scenario_name": "BESS power oscillation",
+      "scenario_family": "oscillatory_bess_control",
+      "scenario_class": "physical_only",
+      "start_time_s": 130000,
+      "duration_s": 600,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "smooth_oscillation",
+          "magnitude": 6.0,
+          "unit": "kW",
+          "direction": "bidirectional",
+          "shape": "smooth_oscillation",
+          "ramp_seconds": 0,
+          "effect_application_note": "Apply sinusoidal oscillation around baseline BESS power; clip to BESS power bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_soc_percent",
+        "pcc_p_kw"
+      ],
+      "validation_notes": "Physical-only BESS oscillation representing control instability; bounded oscillation within power limits.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_phys_coord_014",
+      "scenario_name": "coordinated PV BESS response",
+      "scenario_family": "coordinated_pv_bess_response",
+      "scenario_class": "physical_only",
+      "start_time_s": 554000,
+      "duration_s": 540,
+      "target_asset_id": "der_site_001",
+      "target_component": "der_site",
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 10.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 90,
+          "effect_application_note": "Reduce PV output; clip to zero lower bound."
+        },
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 12.0,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 90,
+          "effect_application_note": "Increase BESS discharge to compensate; clip to BESS power bounds."
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "bess_p_kw",
+        "pcc_p_kw",
+        "bess_soc_percent"
+      ],
+      "validation_notes": "Physical-only coordinated PV-BESS response with compensating power changes; stays within all bounds.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_normal_015",
+      "scenario_name": "normal morning BESS charge",
+      "scenario_family": "normal_control_variation",
+      "scenario_class": "normal",
+      "start_time_s": 32000,
+      "duration_s": 300,
+      "target_asset_id": "bess_001",
+      "target_component": "bess",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "none",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 0,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "bess_p_kw",
+        "bess_soc_percent"
+      ],
+      "validation_notes": "Normal operational control scenario with no physical residual or anomaly labels; represents baseline behavior.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    },
+    {
+      "scenario_id": "zdl_claude_normal_016",
+      "scenario_name": "normal evening PV ramp down",
+      "scenario_family": "normal_control_variation",
+      "scenario_class": "normal",
+      "start_time_s": 590000,
+      "duration_s": 420,
+      "target_asset_id": "pv_001",
+      "target_component": "pv",
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 0,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 0
+      },
+      "expected_observable_signals": [
+        "pv_p_kw",
+        "irradiance_pu"
+      ],
+      "validation_notes": "Normal operational scenario during evening irradiance decline; no physical residual or anomaly labels.",
+      "safety_note": "Synthetic/simulation-only defensive test scenario for frozen-model generalization testing; not real-world exploitation or packet-level protocol data."
+    }
+  ]
+}

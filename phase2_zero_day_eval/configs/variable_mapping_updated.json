@@ -1,0 +1,17 @@
+{
+  "pv_p_kw": ["pv_p_kw", "pv_actual_p_kw"],
+  "pv_q_kvar": ["pv_q_kvar", "pv_actual_q_kvar"],
+  "bess_p_kw": ["bess_p_kw", "bess_actual_p_kw"],
+  "bess_q_kvar": ["bess_q_kvar", "bess_actual_q_kvar"],
+  "bess_soc_percent": ["bess_soc_percent"],
+  "pcc_v_a_pu": ["pcc_v_a_pu"],
+  "pcc_v_b_pu": ["pcc_v_b_pu"],
+  "pcc_v_c_pu": ["pcc_v_c_pu"],
+  "pcc_i_a_amp": ["pcc_i_a_amp"],
+  "pcc_i_b_amp": ["pcc_i_b_amp"],
+  "pcc_i_c_amp": ["pcc_i_c_amp"],
+  "pcc_p_kw": ["pcc_p_kw"],
+  "pcc_q_kvar": ["pcc_q_kvar"],
+  "irradiance_pu": ["irradiance_pu"],
+  "temperature_c": ["temperature_c"]
+}

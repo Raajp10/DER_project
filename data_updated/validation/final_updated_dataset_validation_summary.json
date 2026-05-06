@@ -1,0 +1,27 @@
+{
+  "run_time_utc": "2026-05-05T19:46:08.736111+00:00",
+  "overall": "PASS",
+  "gates": {
+    "physical": "PASS",
+    "cyber": "PASS",
+    "context": "PASS",
+    "files": "PASS",
+    "figures": "PASS"
+  },
+  "generation_method_counts": {
+    "physics_constrained_surrogate": 604800
+  },
+  "protocol_claim_level_counts": {
+    "semantic_ieee2030_5_style": 1730
+  },
+  "figures_passed": 15,
+  "figures_failed": 0,
+  "final_claim": "The updated dataset combines OpenDSS-based IEEE 123-bus clean DER simulation outputs with physics-constrained surrogate anomalous DER responses, IEEE 1547-informed DER operating constraints, and an IEEE 2030.5-style semantic cyber event lifecycle representing DER control, status, metering, and response behavior. Cyber and physical layers are aligned through event-specific command-to-response context windows for cyber-physical anomaly detection.",
+  "claim_case": "A",
+  "opendss_event_window_rows": 0,
+  "surrogate_rows": 604800,
+  "opendss_event_window_successes": 0,
+  "opendss_event_window_failures": 9,
+  "opendss_event_window_resolved_rows": 0,
+  "opendss_event_window_stage": 1
+}

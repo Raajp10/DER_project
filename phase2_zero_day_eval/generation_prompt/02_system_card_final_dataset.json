@@ -1,0 +1,157 @@
+{
+  "system_id": "der_black_box_final_7day_single_site_v2_exact_match",
+  "compatibility_level": "exact_match_to_final_release_dataset",
+  "dataset_release_name": "DER_Black_Box_Final_Project_Release_20260504_224334",
+  "project_root_policy": "Use current working directory as project_root unless --project-root is provided; do not permanently hardcode a timestamped path.",
+  "dataset_type": "synthetic/simulation DER cyber-physical dataset",
+  "primary_detection_layer": "physical",
+  "cyber_layer_role": "event_level_context_only",
+  "claim_boundary": {
+    "field_telemetry": false,
+    "packet_level_protocol_compliance": false,
+    "safe_claim": "validated synthetic DER cyber-physical dataset with physics-informed physical layer and event-level protocol-inspired cyber context",
+    "unsafe_claims": [
+      "real field DER telemetry",
+      "packet-level IEEE 2030.5/DNP3/IEC 61850/Modbus compliance",
+      "proven real-world zero-day detection",
+      "full IEEE 123-bus multi-DER field system"
+    ]
+  },
+  "time_base": {
+    "duration_days": 7,
+    "sample_period_seconds": 1,
+    "row_count_physical": 604800,
+    "time_s_min": 0,
+    "time_s_max": 604799,
+    "timezone": "UTC",
+    "valid_start_time_s_min": 0,
+    "valid_end_time_s_max": 604799
+  },
+  "canonical_assets": {
+    "der_site_id": "der_site_001",
+    "pcc_id": "pcc_001",
+    "pv_id": "pv_001",
+    "bess_id": "bess_001"
+  },
+  "allowed_asset_ids": ["der_site_001", "pv_001", "bess_001", "pcc_001"],
+  "forbidden_old_asset_ids": [
+    "pv35", "pv60", "pv83", "pv76", "pv49", "pv104", "pv114",
+    "bess48", "bess76", "bess108", "bess114"
+  ],
+  "physical_features_allowed_for_modeling": [
+    "pv_p_kw",
+    "pv_q_kvar",
+    "bess_p_kw",
+    "bess_q_kvar",
+    "bess_soc_percent",
+    "pcc_v_a_pu",
+    "pcc_v_b_pu",
+    "pcc_v_c_pu",
+    "pcc_i_a_amp",
+    "pcc_i_b_amp",
+    "pcc_i_c_amp",
+    "pcc_p_kw",
+    "pcc_q_kvar",
+    "irradiance_pu",
+    "temperature_c"
+  ],
+  "physical_effect_variables_allowed_by_default": [
+    "pv_p_kw",
+    "pv_q_kvar",
+    "bess_p_kw",
+    "bess_q_kvar",
+    "bess_soc_percent",
+    "pcc_v_a_pu",
+    "pcc_v_b_pu",
+    "pcc_v_c_pu",
+    "pcc_i_a_amp",
+    "pcc_i_b_amp",
+    "pcc_i_c_amp",
+    "pcc_p_kw",
+    "pcc_q_kvar"
+  ],
+  "environment_effect_policy": {
+    "temperature_c_modification_allowed": false,
+    "irradiance_pu_modification_allowed_only_for_family": "physical_irradiance_like_disturbance",
+    "reason": "Environment variables are context features and should not be casually rewritten by LLM scenarios."
+  },
+  "forbidden_physical_features": ["pcc_freq_hz", "frequency_hz", "grid_frequency", "bus_voltage_123", "ieee123_bus_id"],
+  "non_feature_or_leakage_columns": [
+    "timestamp_utc",
+    "time_s",
+    "event_id",
+    "scenario_id",
+    "active_event_id",
+    "active_asset_id",
+    "scenario_name",
+    "scenario_class",
+    "scenario_family",
+    "anomaly_type",
+    "label_anomaly",
+    "label_cyber_anomaly",
+    "label_physical_anomaly",
+    "cyber_anomaly_flag",
+    "physical_anomaly_flag",
+    "final_event_class",
+    "time_since_command_s",
+    "time_until_apply_s",
+    "expected_p_kw",
+    "actual_p_kw",
+    "power_error_kw",
+    "expected_q_kvar",
+    "actual_q_kvar",
+    "reactive_power_error_kvar",
+    "actual_soc_percent",
+    "response_late_flag",
+    "physical_response_changed_flag"
+  ],
+  "physical_bounds": {
+    "pv_p_kw": {"min": 0.0, "max": 100.0, "unit": "kW"},
+    "pv_q_kvar": {"min": -60.0, "max": 60.0, "unit": "kvar"},
+    "bess_p_kw": {"min": -50.0, "max": 50.0, "unit": "kW"},
+    "bess_q_kvar": {"min": -50.0, "max": 50.0, "unit": "kvar"},
+    "bess_soc_percent": {"min": 5.0, "max": 95.0, "unit": "%"},
+    "pcc_v_a_pu": {"min": 0.90, "max": 1.10, "unit": "pu"},
+    "pcc_v_b_pu": {"min": 0.90, "max": 1.10, "unit": "pu"},
+    "pcc_v_c_pu": {"min": 0.90, "max": 1.10, "unit": "pu"},
+    "pcc_i_a_amp": {"min": 0.0, "max": 500.0, "unit": "A"},
+    "pcc_i_b_amp": {"min": 0.0, "max": 500.0, "unit": "A"},
+    "pcc_i_c_amp": {"min": 0.0, "max": 500.0, "unit": "A"},
+    "pcc_p_kw": {"min": -250.0, "max": 250.0, "unit": "kW"},
+    "pcc_q_kvar": {"min": -150.0, "max": 150.0, "unit": "kvar"},
+    "irradiance_pu": {"min": 0.0, "max": 1.2, "unit": "pu"},
+    "temperature_c": {"min": -20.0, "max": 50.0, "unit": "C"}
+  },
+  "scenario_family_policy": {
+    "purpose": "Families are intentionally held-out cross-LLM test families and do not need to match original training scenario families.",
+    "must_be_mapped_in_truth_table": true,
+    "no_unlisted_families": true
+  },
+  "cyber_context_allowed_fields": [
+    "event_level_only",
+    "message_type",
+    "cyber_event_category",
+    "cia_dimension",
+    "protocol_profile",
+    "delivery_status"
+  ],
+  "cyber_context_forbidden_fields": [
+    "source_ip", "destination_ip", "port", "packet_payload", "exploit", "malware", "credential", "certificate_private_key", "dnp3_frame", "iec61850_goose", "modbus_register_write"
+  ],
+  "final_approved_data_files": {
+    "normal_physical": "data/raw/physical_timeseries_normal_7d.csv",
+    "anomalous_physical": "data/raw/physical_timeseries_anomalous_7d.csv",
+    "mapped_event_windows": "data/processed/mapped_anomaly_event_windows_7d.csv",
+    "scenario_manifest": "data/scenarios/scenario_manifest_7d.csv"
+  },
+  "final_validation_requirements_before_cross_llm_compile": {
+    "normal_rows": 604800,
+    "anomalous_rows": 604800,
+    "mapped_anomaly_rows": 177840,
+    "manifest_rows": 988,
+    "label_mismatch_count": 0,
+    "outside_window_residual_count": 0,
+    "normal_window_residual_count": 0,
+    "cyber_only_residual_count": 0
+  }
+}

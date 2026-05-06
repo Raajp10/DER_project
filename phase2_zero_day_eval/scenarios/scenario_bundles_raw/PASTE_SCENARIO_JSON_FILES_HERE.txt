@@ -1,0 +1,5 @@
+Paste one JSON bundle per file in this folder.
+Do not paste markdown.
+Do not paste explanations.
+Each JSON file must follow the Phase 2 zero-day schema.
+After pasting files, run validate_zero_day_scenarios.py.

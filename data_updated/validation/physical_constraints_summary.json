@@ -1,0 +1,344 @@
+{
+  "total": 66,
+  "passed": 65,
+  "warned": 1,
+  "failed": 0,
+  "pass_rate": 98.5,
+  "overall": "PASS",
+  "results": [
+    {
+      "check": "clean_row_count",
+      "status": "PASS",
+      "expected": 604800,
+      "actual": 604800
+    },
+    {
+      "check": "clean_no_duplicate_time_s",
+      "status": "PASS",
+      "duplicates_found": 0
+    },
+    {
+      "check": "clean_no_gaps",
+      "status": "PASS",
+      "gap_count": 0
+    },
+    {
+      "check": "clean_start_timestamp",
+      "status": "PASS",
+      "expected": "2026-01-01T00:00:00Z",
+      "actual": "2026-01-01T00:00:00Z"
+    },
+    {
+      "check": "clean_end_timestamp",
+      "status": "PASS",
+      "expected": "2026-01-07T23:59:59Z",
+      "actual": "2026-01-07T23:59:59Z"
+    },
+    {
+      "check": "clean_col_timestamp_utc",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_time_s",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_der_site_id",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pcc_id",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pv_actual_p_kw",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pv_available_kw",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pv_actual_q_kvar",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_bess_actual_p_kw",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_bess_actual_q_kvar",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_bess_soc_percent",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pcc_v_a_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pcc_v_b_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pcc_v_c_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pcc_voltage_mean_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pcc_voltage_unbalance_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pcc_p_kw",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_pcc_q_kvar",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_col_generation_method",
+      "status": "PASS"
+    },
+    {
+      "check": "clean_pv_not_exceed_available",
+      "status": "PASS",
+      "violations": 0
+    },
+    {
+      "check": "clean_pv_apparent_power_limit",
+      "status": "PASS",
+      "violations": 0,
+      "limit_kva": 111.11
+    },
+    {
+      "check": "clean_bess_apparent_power_limit",
+      "status": "PASS",
+      "violations": 0,
+      "limit_kva": 55.55
+    },
+    {
+      "check": "clean_bess_soc_min",
+      "status": "PASS",
+      "violations": 0,
+      "limit": 10.0
+    },
+    {
+      "check": "clean_bess_soc_max",
+      "status": "PASS",
+      "violations": 0,
+      "limit": 90.0
+    },
+    {
+      "check": "clean_voltage_plausible",
+      "status": "PASS",
+      "below_min": 0,
+      "above_max": 0
+    },
+    {
+      "check": "clean_voltage_unbalance",
+      "status": "PASS",
+      "max_unbalance_pu": 0.00386,
+      "rows_above_warn_0012": 0,
+      "rows_above_hard_0020": 0,
+      "rows_above_fail_0030": 0
+    },
+    {
+      "check": "clean_no_generic_pv_rating_contamination",
+      "status": "PASS",
+      "contaminated_rows": 0
+    },
+    {
+      "check": "clean_generation_method_summary",
+      "status": "PASS",
+      "counts": {
+        "physics_constrained_surrogate": 604800
+      }
+    },
+    {
+      "check": "clean_generation_method_allowed_values",
+      "status": "PASS",
+      "unknown_count": 0,
+      "allowed": [
+        "csv_rule_legacy",
+        "opendss_clean_baseline",
+        "opendss_event_window_resolved",
+        "physics_constrained_surrogate"
+      ]
+    },
+    {
+      "check": "attacked_row_count",
+      "status": "PASS",
+      "expected": 604800,
+      "actual": 604800
+    },
+    {
+      "check": "attacked_no_duplicate_time_s",
+      "status": "PASS",
+      "duplicates_found": 0
+    },
+    {
+      "check": "attacked_no_gaps",
+      "status": "PASS",
+      "gap_count": 0
+    },
+    {
+      "check": "attacked_start_timestamp",
+      "status": "PASS",
+      "expected": "2026-01-01T00:00:00Z",
+      "actual": "2026-01-01T00:00:00Z"
+    },
+    {
+      "check": "attacked_end_timestamp",
+      "status": "PASS",
+      "expected": "2026-01-07T23:59:59Z",
+      "actual": "2026-01-07T23:59:59Z"
+    },
+    {
+      "check": "attacked_col_timestamp_utc",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_time_s",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_der_site_id",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pcc_id",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pv_actual_p_kw",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pv_available_kw",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pv_actual_q_kvar",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_bess_actual_p_kw",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_bess_actual_q_kvar",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_bess_soc_percent",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pcc_v_a_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pcc_v_b_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pcc_v_c_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pcc_voltage_mean_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pcc_voltage_unbalance_pu",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pcc_p_kw",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_pcc_q_kvar",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_col_generation_method",
+      "status": "PASS"
+    },
+    {
+      "check": "attacked_pv_not_exceed_available",
+      "status": "PASS",
+      "violations": 0
+    },
+    {
+      "check": "attacked_pv_apparent_power_limit",
+      "status": "PASS",
+      "violations": 0,
+      "limit_kva": 111.11
+    },
+    {
+      "check": "attacked_bess_apparent_power_limit",
+      "status": "PASS",
+      "violations": 0,
+      "limit_kva": 55.55
+    },
+    {
+      "check": "attacked_bess_soc_min",
+      "status": "PASS",
+      "violations": 0,
+      "limit": 10.0
+    },
+    {
+      "check": "attacked_voltage_plausible",
+      "status": "WARN",
+      "below_min": 84,
+      "above_max": 0
+    },
+    {
+      "check": "attacked_voltage_unbalance",
+      "status": "PASS",
+      "max_unbalance_pu": 0.00386,
+      "rows_above_warn_0012": 0,
+      "rows_above_hard_0020": 0,
+      "rows_above_fail_0030": 0
+    },
+    {
+      "check": "attacked_no_generic_pv_rating_contamination",
+      "status": "PASS",
+      "contaminated_rows": 0
+    },
+    {
+      "check": "attacked_generation_method_summary",
+      "status": "PASS",
+      "counts": {
+        "physics_constrained_surrogate": 604800
+      }
+    },
+    {
+      "check": "attacked_generation_method_allowed_values",
+      "status": "PASS",
+      "unknown_count": 0,
+      "allowed": [
+        "csv_rule_legacy",
+        "opendss_clean_baseline",
+        "opendss_event_window_resolved",
+        "physics_constrained_surrogate"
+      ]
+    },
+    {
+      "check": "clean_attacked_time_s_alignment",
+      "status": "PASS"
+    }
+  ],
+  "opendss_event_window_successes": 0,
+  "opendss_event_window_failures": 9,
+  "opendss_event_window_resolved_rows": 0,
+  "opendss_event_window_stage": 1
+}

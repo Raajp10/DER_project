@@ -1,0 +1,656 @@
+{
+  "dataset_id": "cross_llm_zero_day_gemini_v1",
+  "author_model": "gemini",
+  "generation_purpose": "held_out_zero_day_like_frozen_model_evaluation",
+  "scenarios": [
+    {
+      "scenario_id": "zdl_gemini_normal_001",
+      "scenario_family": "normal_control_variation",
+      "start_time_s": 10000,
+      "duration_s": 300,
+      "end_time_s": 10300,
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 0,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 0
+      },
+      "explanation": {
+        "why_plausible": "Routine operational variances occur naturally.",
+        "expected_model_difficulty": "Low, baseline behavior.",
+        "operator_evidence": "Standard logs confirm normal operation.",
+        "limitations": "Does not test anomaly detection thresholds."
+      },
+      "scenario_class": "normal",
+      "target_asset_id": "der_site_001",
+      "scenario_name": "zdl gemini normal 001",
+      "target_component": "der_site",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_normal_002",
+      "scenario_family": "normal_control_variation",
+      "start_time_s": 300000,
+      "duration_s": 600,
+      "end_time_s": 300600,
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 0,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 0
+      },
+      "explanation": {
+        "why_plausible": "DER operates smoothly tracking irradiance and schedule.",
+        "expected_model_difficulty": "Low, true negative test.",
+        "operator_evidence": "No alarms.",
+        "limitations": "No physical anomaly present."
+      },
+      "scenario_class": "normal",
+      "target_asset_id": "der_site_001",
+      "scenario_name": "zdl gemini normal 002",
+      "target_component": "der_site",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cyber_001",
+      "scenario_family": "false_data_injection_context_only",
+      "start_time_s": 100000,
+      "duration_s": 300,
+      "end_time_s": 100300,
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "telemetry",
+        "cyber_event_category": "metering",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "explanation": {
+        "why_plausible": "Communication-layer inconsistency altering event-level cyber context upstream of the historian but failing to reach physical controls.",
+        "expected_model_difficulty": "High, relies entirely on cyber logs.",
+        "operator_evidence": "Mismatch between SCADA logs and actual downstream meters.",
+        "limitations": "Physical layer models will not detect this."
+      },
+      "scenario_class": "cyber_only",
+      "target_asset_id": "pv_001",
+      "scenario_name": "zdl gemini cyber 001",
+      "target_component": "pv",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cyber_002",
+      "scenario_family": "availability_degradation_context_only",
+      "start_time_s": 200000,
+      "duration_s": 300,
+      "end_time_s": 200300,
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "status",
+        "cyber_event_category": "status_reporting",
+        "cia_dimension": "availability_monitoring",
+        "protocol_profile": "nistir7628_cybersecurity_inspired",
+        "delivery_status": "blocked"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "explanation": {
+        "why_plausible": "Network switch failure or localized event dropping event-level cyber context.",
+        "expected_model_difficulty": "High, relies on communication timeout alarms.",
+        "operator_evidence": "Stale HMI screens, link-down alarms.",
+        "limitations": "Device physics remain stable."
+      },
+      "scenario_class": "cyber_only",
+      "target_asset_id": "bess_001",
+      "scenario_name": "zdl gemini cyber 002",
+      "target_component": "bess",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cyber_003",
+      "scenario_family": "command_delay",
+      "start_time_s": 400000,
+      "duration_s": 1800,
+      "end_time_s": 401800,
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "availability",
+        "protocol_profile": "ieee1547_interoperability_inspired",
+        "delivery_status": "delayed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "explanation": {
+        "why_plausible": "High network congestion causes delayed routing.",
+        "expected_model_difficulty": "Medium, checking timestamp drifts.",
+        "operator_evidence": "Late acknowledgments.",
+        "limitations": "No bounded physical response, just latency."
+      },
+      "scenario_class": "cyber_only",
+      "target_asset_id": "pcc_001",
+      "scenario_name": "zdl gemini cyber 003",
+      "target_component": "pcc",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cyber_004",
+      "scenario_family": "command_suppression",
+      "start_time_s": 500000,
+      "duration_s": 300,
+      "end_time_s": 500300,
+      "physical_effects": [],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "availability",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "suppressed"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 0
+      },
+      "explanation": {
+        "why_plausible": "Firewall misconfiguration or communication-layer inconsistency rule.",
+        "expected_model_difficulty": "High.",
+        "operator_evidence": "Command sent from SCADA but device never acknowledges.",
+        "limitations": "Requires cyber logs for detection."
+      },
+      "scenario_class": "cyber_only",
+      "target_asset_id": "der_site_001",
+      "scenario_name": "zdl gemini cyber 004",
+      "target_component": "der_site",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_phys_001",
+      "scenario_family": "pcc_voltage_deviation",
+      "start_time_s": 120000,
+      "duration_s": 300,
+      "end_time_s": 120300,
+      "physical_effects": [
+        {
+          "variable": "pcc_v_a_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.05,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "Within bounds"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "External grid fault or heavy local load.",
+        "expected_model_difficulty": "Medium, could be mistaken for normal load step.",
+        "operator_evidence": "Under-voltage alarm at phase A.",
+        "limitations": "Cyber context is clean."
+      },
+      "scenario_class": "physical_only",
+      "target_asset_id": "pcc_001",
+      "scenario_name": "zdl gemini phys 001",
+      "target_component": "pcc",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_phys_002",
+      "scenario_family": "physical_irradiance_like_disturbance",
+      "start_time_s": 220000,
+      "duration_s": 600,
+      "end_time_s": 220600,
+      "physical_effects": [
+        {
+          "variable": "irradiance_pu",
+          "effect_type": "relative_delta",
+          "magnitude": 0.4,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "step",
+          "ramp_seconds": 0,
+          "effect_application_note": "Cloud cover emulation"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "Passing clouds cause fast irradiance drops.",
+        "expected_model_difficulty": "Low to Medium.",
+        "operator_evidence": "Correlated drop in PV active power.",
+        "limitations": "Difficult to distinguish from sensor failure without secondary pyranometer."
+      },
+      "scenario_class": "physical_only",
+      "target_asset_id": "pv_001",
+      "scenario_name": "zdl gemini phys 002",
+      "target_component": "pv",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_phys_003",
+      "scenario_family": "soc_aware_bess_dispatch_anomaly",
+      "start_time_s": 360000,
+      "duration_s": 300,
+      "end_time_s": 360300,
+      "physical_effects": [
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 15.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 30,
+          "effect_application_note": "Discharge suppression"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "Internal inverter thermal derating.",
+        "expected_model_difficulty": "Medium, depends on SOC thresholds.",
+        "operator_evidence": "BESS power mismatch with scheduled dispatch.",
+        "limitations": "No abnormal control behavior, purely equipment physics."
+      },
+      "scenario_class": "physical_only",
+      "target_asset_id": "bess_001",
+      "scenario_name": "zdl gemini phys 003",
+      "target_component": "bess",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_phys_004",
+      "scenario_family": "pcc_voltage_deviation",
+      "start_time_s": 550000,
+      "duration_s": 300,
+      "end_time_s": 550300,
+      "physical_effects": [
+        {
+          "variable": "pcc_v_b_pu",
+          "effect_type": "absolute_delta",
+          "magnitude": 0.04,
+          "unit": "pu",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "Under voltage sag"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "monitoring",
+        "cyber_event_category": "operational_telemetry",
+        "cia_dimension": "none",
+        "protocol_profile": "synthetic_der_event_log",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 0,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "Unbalanced grid load or line fault.",
+        "expected_model_difficulty": "Low, phase mismatch is easy to detect.",
+        "operator_evidence": "Voltage imbalance flags.",
+        "limitations": "None."
+      },
+      "scenario_class": "physical_only",
+      "target_asset_id": "pcc_001",
+      "scenario_name": "zdl gemini phys 004",
+      "target_component": "pcc",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cp_001",
+      "scenario_family": "pcc_voltage_deviation",
+      "start_time_s": 150000,
+      "duration_s": 600,
+      "end_time_s": 150600,
+      "physical_effects": [
+        {
+          "variable": "pcc_q_kvar",
+          "effect_type": "absolute_delta",
+          "magnitude": 25.0,
+          "unit": "kvar",
+          "direction": "increase",
+          "shape": "step",
+          "ramp_seconds": 0,
+          "effect_application_note": "Reactive power injection"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "Synthetic command-integrity scenario overwrites var setpoints to cause abnormal control behavior.",
+        "expected_model_difficulty": "Medium, depends on reactive bounds.",
+        "operator_evidence": "Unexpected var export in telemetry.",
+        "limitations": "Does not model thermal limits."
+      },
+      "scenario_class": "cyber_physical",
+      "target_asset_id": "pcc_001",
+      "scenario_name": "zdl gemini cp 001",
+      "target_component": "pcc",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cp_002",
+      "scenario_family": "coordinated_pv_bess_response",
+      "start_time_s": 240000,
+      "duration_s": 600,
+      "end_time_s": 240600,
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 20.0,
+          "unit": "kW",
+          "direction": "decrease",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "PV curtailed"
+        },
+        {
+          "variable": "bess_p_kw",
+          "effect_type": "absolute_delta",
+          "magnitude": 20.0,
+          "unit": "kW",
+          "direction": "increase",
+          "shape": "ramp",
+          "ramp_seconds": 60,
+          "effect_application_note": "BESS discharges to compensate incorrectly"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "Synthetic command-integrity scenario hides bounded physical response by balancing site export.",
+        "expected_model_difficulty": "High, overall site power appears nominal.",
+        "operator_evidence": "BESS depleting while PV is available.",
+        "limitations": "Only sustainable until BESS reaches min SOC."
+      },
+      "scenario_class": "cyber_physical",
+      "target_asset_id": "der_site_001",
+      "scenario_name": "zdl gemini cp 002",
+      "target_component": "der_site",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cp_003",
+      "scenario_family": "soc_aware_bess_dispatch_anomaly",
+      "start_time_s": 380000,
+      "duration_s": 300,
+      "end_time_s": 380300,
+      "physical_effects": [
+        {
+          "variable": "bess_soc_percent",
+          "effect_type": "hold_stale",
+          "magnitude": 0.0,
+          "unit": "%",
+          "direction": "none",
+          "shape": "hold",
+          "ramp_seconds": 0,
+          "effect_application_note": "SOC telemetry frozen"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "telemetry",
+        "cyber_event_category": "metering",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "Sensor freeze via register manipulation.",
+        "expected_model_difficulty": "Medium, integrating power over time reveals mismatch.",
+        "operator_evidence": "Flatlined SOC curve.",
+        "limitations": "Easy to catch with simple physics integrals."
+      },
+      "scenario_class": "cyber_physical",
+      "target_asset_id": "bess_001",
+      "scenario_name": "zdl gemini cp 003",
+      "target_component": "bess",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cp_004",
+      "scenario_family": "pv_curtailment_mismatch",
+      "start_time_s": 580000,
+      "duration_s": 300,
+      "end_time_s": 580300,
+      "physical_effects": [
+        {
+          "variable": "pv_p_kw",
+          "effect_type": "clip",
+          "magnitude": 50.0,
+          "unit": "kW",
+          "direction": "none",
+          "shape": "step",
+          "ramp_seconds": 0,
+          "effect_application_note": "Artificial curtailment cap"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "Unauthorized max generation limit setting.",
+        "expected_model_difficulty": "Low, high irradiance mismatch.",
+        "operator_evidence": "Inverter output flatlines below expected curve.",
+        "limitations": "Only apparent during high irradiance times."
+      },
+      "scenario_class": "cyber_physical",
+      "target_asset_id": "pv_001",
+      "scenario_name": "zdl gemini cp 004",
+      "target_component": "pv",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cp_005",
+      "scenario_family": "coordinated_pv_bess_response",
+      "start_time_s": 50000,
+      "duration_s": 300,
+      "end_time_s": 50300,
+      "physical_effects": [
+        {
+          "variable": "pcc_p_kw",
+          "effect_type": "smooth_oscillation",
+          "magnitude": 10.0,
+          "unit": "kW",
+          "direction": "bidirectional",
+          "shape": "smooth_oscillation",
+          "ramp_seconds": 0,
+          "effect_application_note": "Induced active power oscillation at PCC"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "control",
+        "cyber_event_category": "device_control",
+        "cia_dimension": "integrity",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "Synthetic command-integrity scenario manipulates PID coefficients via abnormal control behavior.",
+        "expected_model_difficulty": "Medium, frequency analysis required.",
+        "operator_evidence": "Sine wave power output.",
+        "limitations": "Does not model phase angle stability limits."
+      },
+      "scenario_class": "cyber_physical",
+      "target_asset_id": "der_site_001",
+      "scenario_name": "zdl gemini cp 005",
+      "target_component": "der_site",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    },
+    {
+      "scenario_id": "zdl_gemini_cp_006",
+      "scenario_family": "stale_or_delayed_measurement",
+      "start_time_s": 600000,
+      "duration_s": 300,
+      "end_time_s": 600300,
+      "physical_effects": [
+        {
+          "variable": "pcc_v_c_pu",
+          "effect_type": "hold_stale",
+          "magnitude": 0.0,
+          "unit": "pu",
+          "direction": "none",
+          "shape": "hold",
+          "ramp_seconds": 0,
+          "effect_application_note": "Phase C voltage telemetry stale"
+        }
+      ],
+      "cyber_context": {
+        "event_level_only": true,
+        "packet_level_protocol_compliance_claimed": false,
+        "message_type": "telemetry",
+        "cyber_event_category": "metering",
+        "cia_dimension": "availability_monitoring",
+        "protocol_profile": "ieee2030_5_inspired",
+        "delivery_status": "success"
+      },
+      "labels": {
+        "label_anomaly": 1,
+        "label_cyber_anomaly": 1,
+        "label_physical_anomaly": 1
+      },
+      "explanation": {
+        "why_plausible": "Data historian buffer issue or selective packet dropping.",
+        "expected_model_difficulty": "Low, flatline is easy to catch.",
+        "operator_evidence": "Zero variance on one phase.",
+        "limitations": "Not a dynamic attack."
+      },
+      "scenario_class": "cyber_physical",
+      "target_asset_id": "pcc_001",
+      "scenario_name": "zdl gemini cp 006",
+      "target_component": "pcc",
+      "safety_note": "Synthetic/simulation-only defensive frozen-model evaluation scenario; no real-world telemetry or protocol compliance claim."
+    }
+  ],
+  "project_compatibility_statement": "I used only the final single-site dataset assets der_site_001, pv_001, bess_001, pcc_001; I did not use old multi-DER asset IDs or packet-level cyber fields."
+}

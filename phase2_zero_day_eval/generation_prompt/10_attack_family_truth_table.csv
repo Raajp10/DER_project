@@ -1,0 +1,13 @@
+scenario_family,scenario_class,label_anomaly,label_cyber_anomaly,label_physical_anomaly,residual_allowed,allowed_target_components,notes
+normal_control_variation,normal,0,0,0,0,"pv;bess;pcc;der_site","Normal bounded control/context variation; no anomaly labels and no physical residual."
+soc_aware_bess_dispatch_anomaly,cyber_physical,1,1,1,1,"bess","BESS P/SOC behavior deviates within event window only."
+pv_curtailment_mismatch,cyber_physical,1,1,1,1,"pv","PV P/Q response mismatch or unexpected curtailment within bounded event window."
+stale_or_delayed_measurement,cyber_only,1,1,0,0,"measured_layer;der_site;pcc","Cyber context only; no physical values may change."
+command_delay,cyber_physical,1,1,1,1,"pv;bess","Delayed cyber-control context with bounded physical delayed response."
+command_suppression,cyber_physical,1,1,1,1,"pv;bess","Suppressed/blocked command context with bounded physical mismatch."
+oscillatory_bess_control,cyber_physical,1,1,1,1,"bess","Smooth bounded BESS oscillatory control, not unstable/grid-damaging."
+pcc_voltage_deviation,physical_only,1,0,1,1,"pcc","Physical-only PCC voltage/current/power deviation, no cyber anomaly."
+coordinated_pv_bess_response,cyber_physical,1,1,1,1,"pv;bess;der_site","Coordinated PV+BESS bounded response anomaly."
+false_data_injection_context_only,cyber_only,1,1,0,0,"measured_layer;der_site","Context-only false-data/log anomaly; no physical values change."
+availability_degradation_context_only,cyber_only,1,1,0,0,"measured_layer;der_site","Context-only availability/log delay/burst; no physical values change."
+physical_irradiance_like_disturbance,physical_only,1,0,1,1,"pv;der_site","Only family allowed to modify irradiance_pu; temperature_c remains unchanged."

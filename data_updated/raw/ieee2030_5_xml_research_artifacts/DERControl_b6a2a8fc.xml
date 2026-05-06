@@ -1,0 +1,26 @@
+<!--
+  RESEARCH USE ONLY
+  This XML artifact models IEEE 2030.5-style DER control messages at a semantic level.
+  It is NOT a serialized IEEE 2030.5 protocol message.
+  It is NOT EXI-encoded.
+  It does NOT represent official IEEE 2030.5 compliance.
+  It is generated for research and educational purposes only.
+-->
+<DERControl xmlns="urn:ieee:std:2030.5:ns">
+  <mRID>b6a2a8fc-c8f4-417f-bb82-f51402f59b25</mRID>
+  <DERControlBase>
+    <opModTargetW><multiplier>0</multiplier><value>51990</value></opModTargetW>
+    <opModTargetVar><multiplier>0</multiplier><value>0</value></opModTargetVar>
+  </DERControlBase>
+  <creationTime>2026-01-01T00:39:51.000Z</creationTime>
+  <interval>
+    <duration>60</duration>
+    <start>2026-01-01T00:39:51.006Z</start>
+  </interval>
+  <randomizeDuration>0</randomizeDuration>
+  <randomizeStart>0</randomizeStart>
+  <!-- Research metadata -->
+  <scenarioId>S0139_high_rate_command_bu_burst6</scenarioId>
+  <lifecycleStage>DER_CONTROL_RESPONSE</lifecycleStage>
+  <protocolClaimLevel>semantic_ieee2030_5_style</protocolClaimLevel>
+</DERControl>

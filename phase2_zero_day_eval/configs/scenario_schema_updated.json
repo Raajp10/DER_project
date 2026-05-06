@@ -1,0 +1,76 @@
+{
+  "description": "Schema for Phase 2 zero-day-like scenario bundles",
+  "top_level_required": ["dataset_id", "author_model", "generation_purpose", "project_compatibility_statement", "scenarios"],
+  "top_level_optional": ["compatibility_statement"],
+  "author_model_enum": ["chatgpt", "claude", "gemini", "grok", "other"],
+  "generation_purpose_const": "held_out_zero_day_like_frozen_model_evaluation",
+  "project_compatibility_statement_const": "I used only the final single-site dataset assets der_site_001, pv_001, bess_001, pcc_001; I did not use old multi-DER asset IDs or packet-level cyber fields.",
+  "scenario_count_exact": 16,
+  "scenario_id_pattern": "zdl_(chatgpt|claude|gemini|grok|other)_[a-z0-9_]+_[0-9]{3}",
+  "scenario_class_enum": ["normal", "cyber_only", "physical_only", "cyber_physical"],
+  "class_counts_required": {
+    "physical_only": 4,
+    "cyber_only": 4,
+    "cyber_physical": 6,
+    "normal": 2
+  },
+  "allowed_asset_ids": ["der_site_001", "pv_001", "bess_001", "pcc_001"],
+  "allowed_target_components": ["pv", "bess", "pcc", "measured_layer", "der_site"],
+  "forbidden_asset_ids": [
+    "pv35", "pv60", "pv83", "pv76", "pv49", "pv104", "pv114",
+    "bess48", "bess76", "bess108", "bess114"
+  ],
+  "allowed_scenario_families": [
+    "normal_control_variation",
+    "soc_aware_bess_dispatch_anomaly",
+    "pv_curtailment_mismatch",
+    "stale_or_delayed_measurement",
+    "command_delay",
+    "command_suppression",
+    "oscillatory_bess_control",
+    "pcc_voltage_deviation",
+    "coordinated_pv_bess_response",
+    "false_data_injection_context_only",
+    "availability_degradation_context_only",
+    "physical_irradiance_like_disturbance"
+  ],
+  "allowed_physical_effect_variables": [
+    "pv_p_kw", "pv_q_kvar",
+    "bess_p_kw", "bess_q_kvar", "bess_soc_percent",
+    "pcc_v_a_pu", "pcc_v_b_pu", "pcc_v_c_pu",
+    "pcc_i_a_amp", "pcc_i_b_amp", "pcc_i_c_amp",
+    "pcc_p_kw", "pcc_q_kvar",
+    "irradiance_pu"
+  ],
+  "forbidden_physical_effect_variables": ["temperature_c"],
+  "irradiance_allowed_family_only": "physical_irradiance_like_disturbance",
+  "forbidden_physical_variables_unconditional": [
+    "pcc_freq_hz", "frequency_hz", "grid_frequency", "bus_id", "ieee123_bus"
+  ],
+  "cyber_context_required_flags": {
+    "event_level_only": true,
+    "packet_level_protocol_compliance_claimed": false
+  },
+  "forbidden_cyber_fields": [
+    "payload", "packet", "exploit", "malware", "credential", "password",
+    "hash", "shellcode", "buffer_overflow", "sql_injection"
+  ],
+  "safety_note_required": true,
+  "labels_required": ["label_anomaly", "label_cyber_anomaly", "label_physical_anomaly"],
+  "physical_bounds": {
+    "pv_p_kw": [0, 100],
+    "pv_q_kvar": [-60, 60],
+    "bess_p_kw": [-50, 50],
+    "bess_q_kvar": [-50, 50],
+    "bess_soc_percent": [5, 95],
+    "pcc_v_a_pu": [0.90, 1.10],
+    "pcc_v_b_pu": [0.90, 1.10],
+    "pcc_v_c_pu": [0.90, 1.10],
+    "pcc_i_a_amp": [0, 500],
+    "pcc_i_b_amp": [0, 500],
+    "pcc_i_c_amp": [0, 500],
+    "pcc_p_kw": [-250, 250],
+    "pcc_q_kvar": [-150, 150],
+    "irradiance_pu": [0, 1.2]
+  }
+}
